@@ -14,7 +14,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -56,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Route route = new Route();
         route.addCoordinate(new Coordinate(4.768323, 51.5719149));
-        MapHandler.getInstance(mMap).buildRoute(route);
+        route.addCoordinate(new Coordinate(51.5719149, 4.768323));
+        MapHandler.getInstance(mMap).buildWaypoints(route);
+        //MapHandler.getInstance(mMap).buildRoute(route);
     }
 }
