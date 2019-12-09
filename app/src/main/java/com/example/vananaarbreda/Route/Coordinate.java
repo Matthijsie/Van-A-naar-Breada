@@ -8,11 +8,20 @@ public class Coordinate {
     private double latitude;
     private Sight sight;
 
-    public Coordinate(){
-
+    public Coordinate(double longitude, double latitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Sight getSight(){
         return null;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
     }
 }

@@ -4,7 +4,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 
+import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
+import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +20,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Route route;
+    private static  LatLng BREDA = new LatLng(51.5719149, 4.768323);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +30,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-        UiSettings settings = mMap.getUiSettings();
-        settings.setZoomControlsEnabled(true);
-        settings.setTiltGesturesEnabled(true);
-        settings.setRotateGesturesEnabled(true);
-        settings.setMyLocationButtonEnabled(true);
-        settings.setMapToolbarEnabled(true);
     }
 
 
@@ -51,9 +46,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
+        UiSettings settings = mMap.getUiSettings();
+        settings.setZoomControlsEnabled(true);
+        settings.setTiltGesturesEnabled(true);
+        settings.setRotateGesturesEnabled(true);
+        settings.setMyLocationButtonEnabled(true);
+        settings.setMapToolbarEnabled(true);
+
+        Route route = new Route();
+        route.addCoordinate(new Coordinate(4.768323, 51.5719149));
+        MapHandler.getInstance().buildRoute(route, mMap);
     }
 }
