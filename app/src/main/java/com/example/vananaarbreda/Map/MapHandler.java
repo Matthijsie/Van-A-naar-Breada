@@ -7,6 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+
 public class MapHandler {
 
     private static MapHandler instance;
@@ -35,9 +37,14 @@ public class MapHandler {
         }
     }
 
-    //unstable
     public void buildRoute(Route route){
 
-        googleMap.addPolyline(new PolylineOptions().addAll(null);
+        ArrayList<LatLng> latLngs = new ArrayList<>();
+
+        for (Coordinate coordinate : route.getCoordinates()){
+            latLngs.add(new LatLng(coordinate.getLatitude(), coordinate.getLongitude()));
+        }
+
+        googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
 }

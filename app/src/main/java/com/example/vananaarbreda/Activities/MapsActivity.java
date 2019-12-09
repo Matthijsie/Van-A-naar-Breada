@@ -2,6 +2,7 @@ package com.example.vananaarbreda.Activities;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.example.vananaarbreda.Map.MapHandler;
@@ -57,6 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         route.addCoordinate(new Coordinate(4.768323, 51.5719149));
         route.addCoordinate(new Coordinate(51.5719149, 4.768323));
         MapHandler.getInstance(mMap).buildWaypoints(route);
-        //MapHandler.getInstance(mMap).buildRoute(route);
+        MapHandler.getInstance(mMap).buildRoute(route);
     }
 }
