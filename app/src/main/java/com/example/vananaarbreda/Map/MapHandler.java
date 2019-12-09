@@ -10,13 +10,15 @@ public class MapHandler {
 
     private static MapHandler instance;
 
-    private MapHandler(){
+    private GoogleMap googleMap;
 
+    private MapHandler(GoogleMap googleMap){
+        this.googleMap = googleMap;
     }
 
-    public static MapHandler getInstance(){
+    public static MapHandler getInstance(GoogleMap googleMap){
         if (instance == null){
-            instance = new MapHandler();
+            instance = new MapHandler(googleMap);
         }
 
         return instance;
@@ -26,7 +28,7 @@ public class MapHandler {
 
     }
 
-    public void buildRoute(Route route, GoogleMap googleMap){
+    public void buildRoute(Route route){
         for(Coordinate coordinate : route.getCoordinates()){
             googleMap.addMarker(new MarkerOptions().position(new LatLng(coordinate.getLatitude(), coordinate.getLongitude())));
         }
