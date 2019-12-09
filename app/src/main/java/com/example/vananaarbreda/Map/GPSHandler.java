@@ -19,6 +19,6 @@ public class GPSHandler {
     }
 
     public void setMapHandler(MapHandler handler){
-
+        this.mapHandler = handler;
     }
 }
