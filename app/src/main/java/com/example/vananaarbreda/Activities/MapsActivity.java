@@ -57,5 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Route route = new Route();
         route.addCoordinate(new Coordinate(4.768323, 51.5719149));
         MapHandler.getInstance(mMap).buildRoute(route);
+
+        mMap.setMinZoomPreference(16);
     }
 }
