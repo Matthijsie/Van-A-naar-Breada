@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,12 +19,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vananaarbreda.Map.GeofenceBroadCastReceiver;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -37,6 +42,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -45,6 +53,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private Location lastKnownLocation;
+    private GeofencingClient geofencingClient;
+    private PendingIntent geofencingPendingintent;
+    private List<Geofence> geofences;
     private boolean requestingLocationUpdates;
     private TextView textViewConnectionStatus;
     private Button buttonHelp;
@@ -58,6 +69,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        //setting geofencing
+        geofencingClient = LocationServices.getGeofencingClient(this);
+        geofences = new ArrayList<>();
+
+        //setting layout
         textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
         buttonHelp = findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +98,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
-                Log.e(TAG, "Got location update: " + locationResult);
+                Log.i(TAG, "Got location update: " + locationResult);
                 if (locationResult == null){
+                    textViewConnectionStatus.setText("no gps connection");
                     return;
                 }
 
@@ -128,8 +145,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+        route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
+
+        textViewConnectionStatus.setText("");
     }
 
     @Override
@@ -142,7 +162,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     onLocationPermission();
                 }else {
-                    Toast.makeText(this, "Locatie geweigerd", Toast.LENGTH_LONG).show();
+                    textViewConnectionStatus.setText(R.string.Location_not_allowed);
                 }
                 break;
 
@@ -185,8 +205,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void onLocationPermission(){
         requestingLocationUpdates = true;
+        textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         startLocationUpdates();
+    }
+
+    private GeofencingRequest getGeofencingRequest(){
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofences);
+
+        return builder.build();
+    }
+
+    private PendingIntent getGeofencePendingIntent(){
+
+        if (geofencingPendingintent != null){
+            return geofencingPendingintent;
+        }
+
+        Intent intent = new Intent(this, GeofenceBroadCastReceiver.class);
+
+        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }
