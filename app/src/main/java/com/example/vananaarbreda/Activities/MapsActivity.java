@@ -1,16 +1,21 @@
 package com.example.vananaarbreda.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vananaarbreda.Map.MapHandler;
@@ -32,7 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Route route;
@@ -41,6 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationCallback locationCallback;
     private Location lastKnownLocation;
     private boolean requestingLocationUpdates;
+    private TextView textViewConnectionStatus;
+    private Button buttonHelp;
 
     private static final LatLng BREDA = new LatLng(51.5719149, 4.768323);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -50,6 +57,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
+        buttonHelp = findViewById(R.id.buttonHelp);
+        buttonHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), HelpActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         //Define location provider
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -97,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
         mMap.setMyLocationEnabled(true);
+        mMap.setMinZoomPreference(14);
 
         UiSettings settings = mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
@@ -105,14 +123,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         settings.setRotateGesturesEnabled(true);
         settings.setMapToolbarEnabled(true);
 
-        //TODO remove this when data system gets added
+        //TODO remove this when data system gets added and make call to database
         Route route = new Route();
         route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
-        mMap.setMinZoomPreference(16);
     }
 
     @Override
@@ -172,5 +189,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         startLocationUpdates();
     }
-
 }

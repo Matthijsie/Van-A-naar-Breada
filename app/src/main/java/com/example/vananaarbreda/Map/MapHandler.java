@@ -33,9 +33,6 @@ public class MapHandler {
         return instance;
     }
 
-    public void setLocation(Coordinate location){
-
-    }
 
     public void buildWaypoints(GoogleMap googleMap, Route route){
         for(final Coordinate coordinate : route.getCoordinates()){
