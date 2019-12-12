@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
@@ -130,6 +131,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
+        GPSHandler.getInstance(this).requestRoute(route);
+
     }
 
     @Override

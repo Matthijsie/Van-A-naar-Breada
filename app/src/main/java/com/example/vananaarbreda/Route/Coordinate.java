@@ -1,5 +1,7 @@
 package com.example.vananaarbreda.Route;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Coordinate {
