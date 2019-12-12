@@ -30,7 +30,6 @@ public class MapHandler {
 
     private static MapHandler instance;
     private Context context;
-    private ArrayList<Geofence> geofences;
 
     private MapHandler(Context context){
         this.context = context;
@@ -67,16 +66,7 @@ public class MapHandler {
                     }
                 }
             });
-
-            //Making geofence
-            geofences.add(new Geofence.Builder()
-                    .setRequestId(coordinate.getSight().getName())                              //Giving geofence an ID
-                    .setCircularRegion(coordinate.getLatitude(), coordinate.getLongitude(), 15) //Setting location and radius
-                    .setExpirationDuration(6*60*60*1000)                                        //Setting expiration time
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)                     //Setting transition types
-                    .build());
-
-        }
+                    }
     }
 
     public void buildRoute(GoogleMap googleMap, Route route){
@@ -90,8 +80,5 @@ public class MapHandler {
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
 
-    public List<Geofence> getGeofences(){
-        return this.geofences;
-    }
 
 }
