@@ -12,11 +12,12 @@ import java.util.ArrayList;
 public class MapHandler {
 
     private static MapHandler instance;
-
     private GoogleMap googleMap;
 
     private MapHandler(GoogleMap googleMap){
         this.googleMap = googleMap;
+
+
     }
 
     public static MapHandler getInstance(GoogleMap googleMap){

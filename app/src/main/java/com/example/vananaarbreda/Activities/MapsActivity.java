@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +17,11 @@ import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,10 +35,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Route route;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private Location lastKnownLocation;
+    private boolean requestingLocationUpdates;
+
     private static final LatLng BREDA = new LatLng(51.5719149, 4.768323);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int DEFAULT_ZOOM = 17;
-    private boolean mLocationPermissionGranted = true;
     private static final String TAG = MapsActivity.class.getSimpleName();
 
     @Override
@@ -39,17 +50,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        if (!checkIfAlreadyhavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        //Define location provider
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        //define location request
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000);
+        locationRequest.setSmallestDisplacement(0.0f);
+
+        //define callback when location provider gets a new location
+        locationCallback = new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+
+                Log.e(TAG, "Got location update: " + locationResult);
+                if (locationResult == null){
+                    return;
+                }
+
+                for (Location location : locationResult.getLocations()){
+                    if (location != null){
+                        lastKnownLocation = location;
+                    }
+                }
             }
+        };
 
-        }else {
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
+        getLocationPermission();
     }
 
 
@@ -67,16 +95,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
+        mMap.setMyLocationEnabled(true);
+
         UiSettings settings = mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
+        settings.setMyLocationButtonEnabled(true);
         settings.setTiltGesturesEnabled(true);
         settings.setRotateGesturesEnabled(true);
-        settings.setMyLocationButtonEnabled(true);
         settings.setMapToolbarEnabled(true);
 
+        //TODO remove this when data system gets added
         Route route = new Route();
-        route.addCoordinate(new Coordinate(4.768323, 51.5719149));
-        route.addCoordinate(new Coordinate(51.5719149, 4.768323));
+        route.addCoordinate(new Coordinate(51.588714, 4.777158));   //VVV Breda
+        route.addCoordinate(new Coordinate(51.593278, 4.779388));   //LiefdesZuster
+        route.addCoordinate(new Coordinate(51.5925, 4.779695));     //Nassau Baronie Monument
         MapHandler.getInstance(mMap).buildWaypoints(route);
         MapHandler.getInstance(mMap).buildRoute(route);
     }
@@ -88,56 +120,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                            .findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(this);
+
+                    onLocationPermission();
                 }else {
-                    Toast.makeText(this, "Gewiegeird", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Locatie geweigerd", Toast.LENGTH_LONG).show();
                 }
                 break;
 
             }
         }
-//        updateLocationUI();
+    }
+
+    private void getLocationPermission(){
+
+        //Permission is not granted = ask user for permission
+        if (!checkIfAlreadyhavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+
+        //Permission is granted
+        }else {
+            onLocationPermission();
+        }
     }
 
     private boolean checkIfAlreadyhavePermission(String permission) {
         int result = ContextCompat.checkSelfPermission(this, permission);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
+
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (requestingLocationUpdates) {
+            startLocationUpdates();
         }
     }
 
-//    private void getDeviceLocation(){
-//        /*
-//         * Get the best and most recent location of the device, which may be null in rare
-//         * cases when a location is not available.
-//         */
-//        try {
-//            if (mLocationPermissionGranted) {
-//                Task locationResult = mFusedLocationProviderClient.getLastLocation();
-//                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
-//                    @Override
-//                    public void onComplete(@NonNull Task task) {
-//                        if (task.isSuccessful()) {
-//                            // Set the map's camera position to the current location of the device.
-//                            mLastKnownLocation = task.getResult();
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                    new LatLng(mLastKnownLocation.getLatitude(),
-//                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-//                        } else {
-//                            Log.d(TAG, "Current location is null. Using defaults.");
-//                            Log.e(TAG, "Exception: %s", task.getException());
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//                        }
-//                    }
-//                });
-//            }
-//        } catch(SecurityException e)  {
-//            Log.e("Exception: %s", e.getMessage());
-//        }
-//    }
+    private void startLocationUpdates(){
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    private void onLocationPermission(){
+        requestingLocationUpdates = true;
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        startLocationUpdates();
+    }
+
 }
