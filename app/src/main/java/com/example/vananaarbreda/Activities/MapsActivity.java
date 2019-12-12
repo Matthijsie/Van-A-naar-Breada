@@ -17,6 +17,7 @@ import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
+import com.example.vananaarbreda.Route.Sight;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -106,11 +107,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //TODO remove this when data system gets added
         Route route = new Route();
-        route.addCoordinate(new Coordinate(51.588714, 4.777158));   //VVV Breda
-        route.addCoordinate(new Coordinate(51.593278, 4.779388));   //LiefdesZuster
-        route.addCoordinate(new Coordinate(51.5925, 4.779695));     //Nassau Baronie Monument
-        MapHandler.getInstance(mMap).buildWaypoints(route);
-        MapHandler.getInstance(mMap).buildRoute(route);
+        route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
+        route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
+        route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+        MapHandler.getInstance(this).buildWaypoints(mMap, route);
+        MapHandler.getInstance(this).buildRoute(mMap, route);
     }
 
     @Override
