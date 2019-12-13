@@ -1,6 +1,7 @@
 package com.example.vananaarbreda.Map;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -45,15 +46,17 @@ public class GeofenceTransitionsIntentService extends JobIntentService {
 
         //Error with geofence entering
         }else{
-            Log.e(TAG, "onHandleWork() called, erro thrown");
+            Log.e(TAG, "onHandleWork() called, error thrown");
         }
     }
 
     private void handleEvent(){
-        Log.d(TAG, "Entered a geofence zone!");
+        Log.d(TAG, "handleEvent() called");
+
     }
 
     public static void enqueueWork(Context context, Intent intent) {
+        Log.d(TAG, "enqueueWork() called");
         enqueueWork(context, GeofenceTransitionsIntentService.class, JOB_ID, intent);
     }
 

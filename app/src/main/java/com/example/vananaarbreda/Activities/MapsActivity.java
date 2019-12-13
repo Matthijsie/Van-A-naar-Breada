@@ -92,7 +92,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
-                Log.i(TAG, "Got location update: " + locationResult);
+                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
+
                 if (locationResult == null){
                     textViewConnectionStatus.setText("no gps connection");
                     return;
@@ -143,6 +144,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
+        Log.d(TAG, "map initialised");
 
         geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent());
         textViewConnectionStatus.setText("");
@@ -154,7 +156,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(MapHandler.getInstance(this).getGeofenceList());
-        return builder.build();
+        GeofencingRequest request = builder.build();
+
+        Log.d(TAG, "GeofencingRequest created with " + request.getGeofences().size() + " Geofence records");
+
+        return request;
     }
 
     private PendingIntent getGeofencePendingIntent(){
@@ -165,8 +171,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
     }
 
     @Override
