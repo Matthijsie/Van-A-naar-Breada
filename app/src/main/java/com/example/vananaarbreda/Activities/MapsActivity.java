@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.vananaarbreda.Map.GeofenceBroadcastReceiver;
 import com.example.vananaarbreda.Map.GeofenceTransitionsIntentService;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
@@ -36,6 +37,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -80,6 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Define location provider and geofencing client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         geofencingClient = LocationServices.getGeofencingClient(this);
+        Log.d(TAG, "Initialised LocationProvider and GeofencingClient");
 
         //define location request
         locationRequest = LocationRequest.create();
@@ -138,15 +144,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //TODO remove this when data system gets added and make call to database
         Route route = new Route();
-        route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
+        route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
-        route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));
+        route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
         Log.d(TAG, "map initialised");
 
-        geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent());
+        geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent())
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess() called");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, e.toString());
+                    textViewConnectionStatus.setText("Location error: check if you have location enabled");
+                }
+            });
+
         textViewConnectionStatus.setText("");
     }
 
@@ -170,7 +190,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return geofencePendingIntent;
         }
 
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         return geofencePendingIntent;
@@ -222,15 +242,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         return hasPermission;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (requestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
+        
     //starts continuous location updates
     private void startLocationUpdates(){
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
