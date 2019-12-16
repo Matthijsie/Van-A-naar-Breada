@@ -14,15 +14,13 @@ import java.util.List;
 
 public class CustomListViewAdapter extends BaseAdapter {
 
-    private Context context;
     private List<Route> routes;
     private LayoutInflater inflater;
 
     public CustomListViewAdapter(Context context, List<Route> routes) {
 
         this.routes = routes;
-        this.context = context;
-        this.inflater = LayoutInflater.from(this.context);
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override

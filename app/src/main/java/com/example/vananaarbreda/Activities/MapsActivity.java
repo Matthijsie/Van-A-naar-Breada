@@ -41,7 +41,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Layout
     private TextView textViewConnectionStatus;
-    private ListView listView;
 
     //statics
     private static final LatLng BREDA = new LatLng(51.5719149, 4.768323);
@@ -60,6 +59,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 //opens a new screen with information about the app
+                Log.d(TAG, "help button pressed");
+
                 Intent intent = new Intent(v.getContext(), HelpActivity.class);
                 v.getContext().startActivity(intent);
             }
@@ -70,6 +71,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 //Creates a popupwindow with a listview
+                Log.d(TAG, "routes button pressed");
+
                 popupWindowRoutes().showAsDropDown(v);
             }
         });
@@ -77,7 +80,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
     }
 
+    //Creates a popup window with a listview
     public PopupWindow popupWindowRoutes() {
+        Log.d(TAG, "popupWindowRoutes() called");
+
+        //TODO MAKE CALL TO DATABASE TO GET ALL ROUTES AND SHOW THEM HERE
 
         //Mock data Routes
         final List<Route> routes = new ArrayList<>();
@@ -89,14 +96,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
         routes.add(route1);
 
-        // initialize a pop up window type
+        //Creates popupwindow
         PopupWindow popupWindow = new PopupWindow(this);
-        ListView listViewDogs = new ListView(this);
 
-        // set our adapter and pass our pop up window contents
+        //Creates listview
+        ListView listViewDogs = new ListView(this);
         listViewDogs.setAdapter(new CustomListViewAdapter(this, routes));
 
-        // set the item click listener
         listViewDogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,18 +114,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        // some other visual settings
+        //some  visual settings
         popupWindow.setFocusable(true);
         popupWindow.setWidth(250);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 
-        // set the list view as pop up window content
+        //set the list view as pop up window content
         popupWindow.setContentView(listViewDogs);
 
         return popupWindow;
     }
-
-
+    
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -151,6 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.textViewConnectionStatus.setText("");
     }
 
+    //Sends a message to the mapHandler to display the currently selected route on the map
     private void buildRoute(Route route){
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
