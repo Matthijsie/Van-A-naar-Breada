@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
@@ -30,12 +31,16 @@ import static android.database.sqlite.SQLiteDatabase.create;
 import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 public class RouteDB{
-    public DatabaseHelper dtb;
+    private DatabaseHelper dtb;
     public RouteDB(Context context) throws IOException {
-
+        dtb = new DatabaseHelper(context);
     }
 
-    private class DatabaseHelper extends SQLiteOpenHelper {
+    public DatabaseHelper getDatabaseHelper(){
+        return this.dtb;
+    }
+
+    public class DatabaseHelper extends SQLiteOpenHelper {
         // LOGtag
         private static final String TAG = "DatabaseHelper";
 
@@ -97,9 +102,19 @@ public class RouteDB{
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE_ROUTE);
+            Log.i(TAG, "onCreate: Route");
             db.execSQL(CREATE_TABLE_SIGHT);
+            Log.i(TAG, "onCreate: Sight");
             db.execSQL(CREATE_TABLE_COORD);
+            Log.i(TAG, "onCreate: Coord");
             db.execSQL(CREATE_LINK_TABLE_COORD_SIGHT);
+            Log.i(TAG, "onCreate: Coord-Sight");
+
+
+            Sight sight = new Sight();
+            sight.setName("test1");
+            sight.setID(1);
+            createSight(sight);
         }
 
         @Override
@@ -193,6 +208,21 @@ public class RouteDB{
         public void deleteRoute(Route route) {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_ROUTE, KEY_ID + " = ?", new String[] { String.valueOf(route.getID())});
+        }
+
+        public ArrayList<Route> getRoutes(){
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT * FROM " + TABLE_ROUTE;
+
+            Cursor c = db.rawQuery(query, null);
+
+            if(c != null) {
+                c.moveToFirst();
+            }
+
+            
+            //let op de query response moet nog worden opgedeeld in individuele routes!
+            return null;
         }
 
         //endregion
