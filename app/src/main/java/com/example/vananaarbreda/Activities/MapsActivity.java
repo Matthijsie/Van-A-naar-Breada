@@ -100,33 +100,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         settings.setRotateGesturesEnabled(true);
         settings.setMapToolbarEnabled(true);
 
-        //TODO remove this when data system gets added and make call to database
+        //TODO Remove hardcoded routes here and instead save them in the database
         Route route = new Route();
         route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
         route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
         route.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
-        MapHandler.getInstance(this).buildWaypoints(mMap, route);
-        MapHandler.getInstance(this).buildRoute(mMap, route);
+
+        buildRoute(route);
         Log.d(TAG, "map initialised");
 
         this.geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent())
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "onSuccess() called");
+                    Log.d(TAG, "onSuccess() called, succesfully added geofences to geofencingclient");
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.e(TAG, e.toString());
-                    textViewConnectionStatus.setText("Location error: check if you have location enabled");
+                    textViewConnectionStatus.setText(R.string.location_error);
                 }
             });
 
         this.textViewConnectionStatus.setText("");
+    }
+
+    //TODO Have this method called ONLY when the user selects a new route from the list
+    private void buildRoute(Route route){
+
+        MapHandler.getInstance(this).buildWaypoints(mMap, route);
+        MapHandler.getInstance(this).buildRoute(mMap, route);
     }
 
     private GeofencingRequest geofencingRequest(){

@@ -3,4 +3,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="Location_not_allowed">Location not permitted, app might not work properly</string>
     <string name="loading_map">Loading map, please wait</string>
+    <string name="location_error">Location error: check if you have location enabled</string>
 </resources>

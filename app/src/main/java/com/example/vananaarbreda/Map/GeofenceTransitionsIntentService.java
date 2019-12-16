@@ -33,7 +33,7 @@ public class GeofenceTransitionsIntentService extends JobIntentService {
         int geofenceTransition = event.getGeofenceTransition();
 
         //Succesfully detected geofence entering
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ){
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
             Log.d(TAG, "Entered the geofence");
             List<Geofence> triggeringGeofences = event.getTriggeringGeofences();
             String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition, triggeringGeofences);

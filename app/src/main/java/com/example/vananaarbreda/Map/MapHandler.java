@@ -86,6 +86,7 @@ public class MapHandler {
 
     public void buildRoute(GoogleMap googleMap, Route route){
 
+        //TODO make a volley call to the direction API
         ArrayList<LatLng> latLngs = new ArrayList<>();
 
         for (Coordinate coordinate : route.getCoordinates()){
