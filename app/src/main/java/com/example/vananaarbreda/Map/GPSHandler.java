@@ -1,10 +1,12 @@
 package com.example.vananaarbreda.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -18,8 +20,9 @@ public class GPSHandler {
     private static final String TAG = GPSHandler.class.getSimpleName();
     private static final int MAXIMUM_WAYPOINT_RADIUS = 15;
 
-    //map
+    //map and context
     private MapHandler mapHandler;
+    private Context context;
 
     //Location
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -28,9 +31,9 @@ public class GPSHandler {
     private Location lastKnownLocation;
 
     private GPSHandler(final Context context){
+        this.context = context;
 
-
-        this.fusedLocationProviderClient = new FusedLocationProviderClient(context);
+        this.fusedLocationProviderClient = new FusedLocationProviderClient(this.context);
         Log.d(TAG, "fusedLocationProviderClient created");
 
         //define location request
@@ -63,7 +66,13 @@ public class GPSHandler {
 
                             if (lastKnownLocation.distanceTo(otherLocation) <= MAXIMUM_WAYPOINT_RADIUS){
                                 Log.d(TAG, "User is withing " + MAXIMUM_WAYPOINT_RADIUS + " metres of a waypoint");
-                                //TODO add notification for user
+
+                                //Start new intent if the user hasn't selected this waypoint as already seen
+                                if (!coordinate.getSight().isVisited()) {
+                                    Intent intent = new Intent(context, SightActivity.class);
+                                    intent.putExtra("SIGHT", coordinate.getSight());
+                                    context.startActivity(intent);
+                                }
                             }
                         }
                     }
