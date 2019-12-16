@@ -4,4 +4,5 @@
     <string name="Location_not_allowed">Location not permitted, app might not work properly</string>
     <string name="loading_map">Loading map, please wait</string>
     <string name="location_error">Location error: check if you have location enabled</string>
+    <string name="location_request_no_permission">Action couldnt go through due to missing permissions</string>
 </resources>

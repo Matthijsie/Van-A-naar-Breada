@@ -6,33 +6,33 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.vananaarbreda.Map.GPSHandler;
-import com.example.vananaarbreda.Map.GeofenceBroadcastReceiver;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
-import com.google.android.gms.location.GeofencingClient;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -41,10 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Layout
     private TextView textViewConnectionStatus;
-
-    //Geofencing
-    private GeofencingClient geofencingClient;
-    private PendingIntent geofencePendingIntent;
+    private ListView listView;
 
     //statics
     private static final LatLng BREDA = new LatLng(51.5719149, 4.768323);
@@ -62,17 +59,66 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //opens a new screen with information about the app
                 Intent intent = new Intent(v.getContext(), HelpActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
 
-        //Define location provider and geofencing client
-        this.geofencingClient = LocationServices.getGeofencingClient(this);
-        Log.d(TAG, "Initialised GeofencingClient");
+        Button routesButton = findViewById(R.id.buttonRoutes);
+        routesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Creates a popupwindow with a listview
+                popupWindowRoutes().showAsDropDown(v);
+            }
+        });
 
         getLocationPermission();
     }
+
+    public PopupWindow popupWindowRoutes() {
+
+        //Mock data Routes
+        final List<Route> routes = new ArrayList<>();
+        Route route1 = new Route("Breda");
+        route1.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
+        route1.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
+        route1.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+        route1.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
+        route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
+        routes.add(route1);
+
+        // initialize a pop up window type
+        PopupWindow popupWindow = new PopupWindow(this);
+        ListView listViewDogs = new ListView(this);
+
+        // set our adapter and pass our pop up window contents
+        listViewDogs.setAdapter(new CustomListViewAdapter(this, routes));
+
+        // set the item click listener
+        listViewDogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (checkIfAlreadyHavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    buildRoute(routes.get(position));
+                }else {
+                    textViewConnectionStatus.setText(R.string.location_request_no_permission);
+                }
+            }
+        });
+
+        // some other visual settings
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(250);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // set the list view as pop up window content
+        popupWindow.setContentView(listViewDogs);
+
+        return popupWindow;
+    }
+
 
     /**
      * Manipulates the map once available.
@@ -100,66 +146,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         settings.setRotateGesturesEnabled(true);
         settings.setMapToolbarEnabled(true);
 
-        //TODO Remove hardcoded routes here and instead save them in the database
-        Route route = new Route();
-        route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
-        route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
-        route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
-        route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
-        route.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
-
-        buildRoute(route);
         Log.d(TAG, "map initialised");
-
-        this.geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent())
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "onSuccess() called, succesfully added geofences to geofencingclient");
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, e.toString());
-                    textViewConnectionStatus.setText(R.string.location_error);
-                }
-            });
 
         this.textViewConnectionStatus.setText("");
     }
 
-    //TODO Have this method called ONLY when the user selects a new route from the list
     private void buildRoute(Route route){
-
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
-    }
-
-    private GeofencingRequest geofencingRequest(){
-        Log.d(TAG, "geofencingRequest() called");
-
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(MapHandler.getInstance(this).getGeofenceList());
-        GeofencingRequest request = builder.build();
-
-        Log.d(TAG, "GeofencingRequest created with " + request.getGeofences().size() + " Geofence records");
-
-        return request;
-    }
-
-    private PendingIntent getGeofencePendingIntent(){
-        Log.d(TAG, "getGeofencePendingIntent() called");
-
-        if (this.geofencePendingIntent != null){
-            return this.geofencePendingIntent;
-        }
-
-        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-        this.geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        return this.geofencePendingIntent;
     }
 
     @Override

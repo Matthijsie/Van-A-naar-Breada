@@ -27,11 +27,10 @@ public class MapHandler {
 
     //Attributes
     private Context context;
-    private List<Geofence> geofenceList;
+    private Route route;
 
     private MapHandler(Context context){
         this.context = context;
-        this.geofenceList = new ArrayList<>();
         GPSHandler.getInstance(this.context).setMapHandler(this);
     }
 
@@ -47,7 +46,6 @@ public class MapHandler {
 
     public void buildWaypoints(GoogleMap googleMap, Route route){
         Log.d(TAG, "buildWaypoints() called");
-        this.geofenceList.clear();
 
         for(final Coordinate coordinate : route.getCoordinates()){
 
@@ -72,16 +70,11 @@ public class MapHandler {
             });
             Log.d(TAG, "Marker added to map on coordinates: (" + coordinate.getLatitude() + " , " + coordinate.getLongitude() + ")");
 
-            geofenceList.add(new Geofence.Builder()
-                .setRequestId(coordinate.getSight().getName())
-                .setExpirationDuration(12 * 60 * 60 * 1000)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                .setCircularRegion(coordinate.getLatitude(), coordinate.getLongitude(), 50)
-                .build());
-
-            Log.d(TAG, "Geofence added to list containing coordinates: (" + coordinate.getLatitude() + "," + coordinate.getLongitude() + ")");
         }
+    }
 
+    public void setRoute(Route route){
+        this.route = route;
     }
 
     public void buildRoute(GoogleMap googleMap, Route route){
@@ -96,8 +89,4 @@ public class MapHandler {
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
 
-    public List<Geofence> getGeofenceList(){
-        Log.d(TAG, "getGeofenceList() called");
-        return geofenceList;
-    }
 }
