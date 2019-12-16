@@ -44,7 +44,7 @@ public class MapHandler {
         return instance;
     }
 
-    public void buildWaypoints(GoogleMap googleMap, Route route){
+    public void buildWaypoints(GoogleMap googleMap){
         Log.d(TAG, "buildWaypoints() called");
 
         for(final Coordinate coordinate : route.getCoordinates()){
@@ -77,16 +77,23 @@ public class MapHandler {
         this.route = route;
     }
 
-    public void buildRoute(GoogleMap googleMap, Route route){
+    public Route getRoute(){
+        return this.route;
+    }
+
+    public void buildRoute(GoogleMap googleMap) {
 
         //TODO make a volley call to the direction API
         ArrayList<LatLng> latLngs = new ArrayList<>();
 
-        for (Coordinate coordinate : route.getCoordinates()){
+        for (Coordinate coordinate : route.getCoordinates()) {
             latLngs.add(new LatLng(coordinate.getLatitude(), coordinate.getLongitude()));
         }
 
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
+
+        GPSHandler.getInstance(context).startLocationUpdating();
+
     }
 
 }

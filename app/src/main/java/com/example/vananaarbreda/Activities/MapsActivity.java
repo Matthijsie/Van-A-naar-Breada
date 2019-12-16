@@ -37,7 +37,6 @@ import java.util.List;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Route route;
 
     //Layout
     private TextView textViewConnectionStatus;
@@ -124,7 +123,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         return popupWindow;
     }
-    
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -152,14 +151,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         settings.setMapToolbarEnabled(true);
 
         Log.d(TAG, "map initialised");
+        MapHandler.getInstance(this);
 
         this.textViewConnectionStatus.setText("");
     }
 
     //Sends a message to the mapHandler to display the currently selected route on the map
     private void buildRoute(Route route){
-        MapHandler.getInstance(this).buildWaypoints(mMap, route);
-        MapHandler.getInstance(this).buildRoute(mMap, route);
+        MapHandler.getInstance(this).setRoute(route);
+        MapHandler.getInstance(this).buildWaypoints(mMap);
+        MapHandler.getInstance(this).buildRoute(mMap);
     }
 
     @Override
@@ -215,6 +216,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        GPSHandler.getInstance(this).startLocationUpdating();
     }
 }

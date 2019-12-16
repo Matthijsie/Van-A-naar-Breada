@@ -5,7 +5,7 @@ import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.vananaarbreda.Route.Route;
+import com.example.vananaarbreda.Route.Coordinate;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -16,6 +16,7 @@ public class GPSHandler {
     //statics
     private static GPSHandler instance;
     private static final String TAG = GPSHandler.class.getSimpleName();
+    private static final int MAXIMUM_WAYPOINT_RADIUS = 15;
 
     //map
     private MapHandler mapHandler;
@@ -26,7 +27,9 @@ public class GPSHandler {
     private LocationCallback locationCallback;
     private Location lastKnownLocation;
 
-    private GPSHandler(Context context){
+    private GPSHandler(final Context context){
+
+
         this.fusedLocationProviderClient = new FusedLocationProviderClient(context);
         Log.d(TAG, "fusedLocationProviderClient created");
 
@@ -34,7 +37,7 @@ public class GPSHandler {
         this.locationRequest = LocationRequest.create();
         this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         this.locationRequest.setInterval(10 * 1000);
-        this.locationRequest.setSmallestDisplacement(10.0f);
+        this.locationRequest.setSmallestDisplacement(5.0f);
         Log.d(TAG, "LocationRequest defined");
 
         //define callback when location provider gets a new location
@@ -52,7 +55,17 @@ public class GPSHandler {
                     if (location != null){
                         lastKnownLocation = location;
 
+                        //Loops through all waypoints to see if one is within the given radius and sends user a notification
+                        for(Coordinate coordinate : mapHandler.getRoute().getCoordinates()){
+                            Location otherLocation = new Location(coordinate.getSight().getName());
+                            otherLocation.setLatitude(coordinate.getLatitude());
+                            otherLocation.setLongitude(coordinate.getLongitude());
 
+                            if (lastKnownLocation.distanceTo(otherLocation) <= MAXIMUM_WAYPOINT_RADIUS){
+                                Log.d(TAG, "User is withing " + MAXIMUM_WAYPOINT_RADIUS + " metres of a waypoint");
+                                //TODO add notification for user
+                            }
+                        }
                     }
                 }
             }
@@ -70,7 +83,7 @@ public class GPSHandler {
         return instance;
     }
 
-    public void setMapHandler(MapHandler handler){
+    public void setMapHandler(final MapHandler handler){
         Log.d(TAG, "setMapHandler() Called");
         this.mapHandler = handler;
     }
