@@ -9,7 +9,7 @@ public class Sight implements Serializable {
 
     private String name;
     private String description;
-    private ArrayList<Bitmap> images;
+    private Bitmap images;
     private boolean isVisited;
 
     public Sight(String name, String description){
@@ -23,5 +23,9 @@ public class Sight implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public Bitmap getImages() {
+        return images;
     }
 }
