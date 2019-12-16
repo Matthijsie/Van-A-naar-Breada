@@ -12,10 +12,14 @@ import com.google.android.gms.location.LocationResult;
 
 public class GPSHandler {
 
+    //statics
     private static GPSHandler instance;
     private static final String TAG = GPSHandler.class.getSimpleName();
 
+    //map
     private MapHandler mapHandler;
+
+    //Location
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -23,15 +27,17 @@ public class GPSHandler {
 
     private GPSHandler(Context context){
         this.fusedLocationProviderClient = new FusedLocationProviderClient(context);
+        Log.d(TAG, "fusedLocationProviderClient created");
 
         //define location request
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10 * 1000);
-        locationRequest.setSmallestDisplacement(10.0f);
+        this.locationRequest = LocationRequest.create();
+        this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        this.locationRequest.setInterval(10 * 1000);
+        this.locationRequest.setSmallestDisplacement(10.0f);
+        Log.d(TAG, "LocationRequest defined");
 
         //define callback when location provider gets a new location
-        locationCallback = new LocationCallback(){
+        this.locationCallback = new LocationCallback(){
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
@@ -44,33 +50,41 @@ public class GPSHandler {
                 for (Location location : locationResult.getLocations()){
                     if (location != null){
                         lastKnownLocation = location;
+
                     }
                 }
             }
         };
+        Log.d(TAG, "LocationCallback defined");
     }
 
     public static GPSHandler getInstance(Context context){
+        Log.d(TAG, "getInstance() called");
         if (instance == null){
             instance = new GPSHandler(context);
+            Log.d(TAG, "new GPSHandler instance created");
         }
 
         return instance;
     }
 
     public void setMapHandler(MapHandler handler){
+        Log.d(TAG, "setMapHandler() Called");
         this.mapHandler = handler;
     }
 
     public Location getLastKnownLocation(){
-        return lastKnownLocation;
+        Log.d(TAG, "getlastKnownLocation() called");
+        return this.lastKnownLocation;
     }
 
     public void startLocationUpdating() {
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        Log.d(TAG, "startLocationUpdating() called");
+        this.fusedLocationProviderClient.requestLocationUpdates(this.locationRequest, this.locationCallback, Looper.getMainLooper());
     }
 
     public void stopLocationUpdating(){
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        Log.d(TAG, "stopLocationUpdating() called");
+        this.fusedLocationProviderClient.removeLocationUpdates(this.locationCallback);
     }
 }

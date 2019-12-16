@@ -21,14 +21,17 @@ import java.util.List;
 
 public class MapHandler {
 
+    //statics
     private static final String TAG  = MapHandler.class.getSimpleName();
     private static MapHandler instance;
+
+    //Attributes
     private Context context;
     private List<Geofence> geofenceList;
 
     private MapHandler(Context context){
         this.context = context;
-        geofenceList = new ArrayList<>();
+        this.geofenceList = new ArrayList<>();
         GPSHandler.getInstance(this.context).setMapHandler(this);
     }
 
@@ -44,7 +47,7 @@ public class MapHandler {
 
     public void buildWaypoints(GoogleMap googleMap, Route route){
         Log.d(TAG, "buildWaypoints() called");
-        geofenceList.clear();
+        this.geofenceList.clear();
 
         for(final Coordinate coordinate : route.getCoordinates()){
 
@@ -67,7 +70,7 @@ public class MapHandler {
                     }
                 }
             });
-            Log.d(TAG, "Marker added to map");
+            Log.d(TAG, "Marker added to map on coordinates: (" + coordinate.getLatitude() + " , " + coordinate.getLongitude() + ")");
 
             geofenceList.add(new Geofence.Builder()
                 .setRequestId(coordinate.getSight().getName())
@@ -76,7 +79,7 @@ public class MapHandler {
                 .setCircularRegion(coordinate.getLatitude(), coordinate.getLongitude(), 50)
                 .build());
 
-            Log.d(TAG, "geofence added to list with coordinates: (" + coordinate.getLatitude() + "," + coordinate.getLongitude() + ")");
+            Log.d(TAG, "Geofence added to list containing coordinates: (" + coordinate.getLatitude() + "," + coordinate.getLongitude() + ")");
         }
 
     }

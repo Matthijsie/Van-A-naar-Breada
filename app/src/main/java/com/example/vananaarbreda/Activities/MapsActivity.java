@@ -57,7 +57,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         //setting layout
-        textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
+        this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
         Button buttonHelp = findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +68,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         //Define location provider and geofencing client
-        geofencingClient = LocationServices.getGeofencingClient(this);
-        Log.d(TAG, "Initialised LocationProvider and GeofencingClient");
+        this.geofencingClient = LocationServices.getGeofencingClient(this);
+        Log.d(TAG, "Initialised GeofencingClient");
 
         getLocationPermission();
     }
@@ -87,13 +87,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady() called");
 
-        mMap = googleMap;
+        this.mMap = googleMap;
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
-        mMap.setMyLocationEnabled(true);
-        mMap.setMinZoomPreference(14);
+        this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
+        this.mMap.setMyLocationEnabled(true);
+        this.mMap.setMinZoomPreference(14);
 
-        UiSettings settings = mMap.getUiSettings();
+        UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
         settings.setMyLocationButtonEnabled(true);
         settings.setTiltGesturesEnabled(true);
@@ -111,7 +111,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapHandler.getInstance(this).buildRoute(mMap, route);
         Log.d(TAG, "map initialised");
 
-        geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent())
+        this.geofencingClient.addGeofences(geofencingRequest(), getGeofencePendingIntent())
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -126,7 +126,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
-        textViewConnectionStatus.setText("");
+        this.textViewConnectionStatus.setText("");
     }
 
     private GeofencingRequest geofencingRequest(){
@@ -145,14 +145,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PendingIntent getGeofencePendingIntent(){
         Log.d(TAG, "getGeofencePendingIntent() called");
 
-        if (geofencePendingIntent != null){
-            return geofencePendingIntent;
+        if (this.geofencePendingIntent != null){
+            return this.geofencePendingIntent;
         }
 
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        this.geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        return geofencePendingIntent;
+        return this.geofencePendingIntent;
     }
 
     @Override
@@ -167,7 +167,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     onLocationPermission();
                 }else {
-                    textViewConnectionStatus.setText(R.string.Location_not_allowed);
+                    this.textViewConnectionStatus.setText(R.string.Location_not_allowed);
                 }
                 break;
 
@@ -186,7 +186,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             }
 
-        //Permission is granted
+        //Permission is already granted
         }else {
             onLocationPermission();
         }
@@ -205,7 +205,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Gets called when the user has given permission
     private void onLocationPermission(){
         Log.d(TAG, "onLocaionPermission() called");
-        textViewConnectionStatus.setText(R.string.loading_map);
+        this.textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         GPSHandler.getInstance(this).startLocationUpdating();

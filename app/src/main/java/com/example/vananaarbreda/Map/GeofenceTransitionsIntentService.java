@@ -16,6 +16,7 @@ import java.util.List;
 
 public class GeofenceTransitionsIntentService extends JobIntentService {
 
+    //statics
     private static final String TAG = GeofenceTransitionsIntentService.class.getSimpleName();
     private static final int JOB_ID = 500;
 
@@ -32,11 +33,10 @@ public class GeofenceTransitionsIntentService extends JobIntentService {
         int geofenceTransition = event.getGeofenceTransition();
 
         //Succesfully detected geofence entering
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
-
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ){
+            Log.d(TAG, "Entered the geofence");
             List<Geofence> triggeringGeofences = event.getTriggeringGeofences();
             String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition, triggeringGeofences);
-
 
             handleEvent();
 
