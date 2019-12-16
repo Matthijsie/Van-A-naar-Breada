@@ -1,17 +1,13 @@
 package com.example.vananaarbreda.Map;
 
-import android.app.IntentService;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.JobIntentService;
 
-import com.example.vananaarbreda.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 

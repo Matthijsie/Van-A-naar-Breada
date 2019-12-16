@@ -9,27 +9,21 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.GeofenceBroadcastReceiver;
-import com.example.vananaarbreda.Map.GeofenceTransitionsIntentService;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,22 +31,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Route route;
-
-    //Location
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-    private Location lastKnownLocation;
-    private boolean requestingLocationUpdates;
 
     //Layout
     private TextView textViewConnectionStatus;
@@ -83,35 +68,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         //Define location provider and geofencing client
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         geofencingClient = LocationServices.getGeofencingClient(this);
         Log.d(TAG, "Initialised LocationProvider and GeofencingClient");
-
-        //define location request
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10 * 1000);
-        locationRequest.setSmallestDisplacement(10.0f);
-
-        //define callback when location provider gets a new location
-        locationCallback = new LocationCallback(){
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-
-                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
-
-                if (locationResult == null){
-                    textViewConnectionStatus.setText("no gps connection");
-                    return;
-                }
-
-                for (Location location : locationResult.getLocations()){
-                    if (location != null){
-                        lastKnownLocation = location;
-                    }
-                }
-            }
-        };
 
         getLocationPermission();
     }
@@ -148,6 +106,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
         route.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
+        route.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
         MapHandler.getInstance(this).buildRoute(mMap, route);
         Log.d(TAG, "map initialised");
@@ -197,7 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionResult() called");
 
         switch (requestCode) {
@@ -242,24 +201,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         return hasPermission;
     }
-        
-    //starts continuous location updates
-    private void startLocationUpdates(){
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-    }
-
-    //stops continuous location updates
-    private void stopLocationUpdates(){
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-    }
 
     //Gets called when the user has given permission
     private void onLocationPermission(){
         Log.d(TAG, "onLocaionPermission() called");
-        requestingLocationUpdates = true;
         textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        startLocationUpdates();
+        GPSHandler.getInstance(this).startLocationUpdating();
     }
 }
