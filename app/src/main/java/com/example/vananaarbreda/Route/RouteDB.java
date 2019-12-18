@@ -6,12 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.vananaarbreda.Map.MapHandler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
 public class RouteDB extends SQLiteOpenHelper {
 
+    private Context context;
+    private DatasetChangedListener listener;
     private static final String TAG = RouteDB.class.getSimpleName();
     private static RouteDB instance;
 
@@ -49,6 +53,7 @@ public class RouteDB extends SQLiteOpenHelper {
 
     private RouteDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -93,6 +98,8 @@ public class RouteDB extends SQLiteOpenHelper {
 
         db.update(TABLE_NAME, values, whereClause, null);
         Log.d(TAG, "updated database record with ID: " + sight.getID());
+
+        listener.onDataSetChanged();
     }
 
     public void resetTable() {
@@ -128,4 +135,7 @@ public class RouteDB extends SQLiteOpenHelper {
         return coordinates;
     }
 
+    public void setDataSetChangedListener(DatasetChangedListener listener){
+        this.listener = listener;
+    }
 }

@@ -35,6 +35,7 @@ public class SightActivity extends AppCompatActivity {
         textDescription.setText(sight.getDescription());
 
         Switch visited = findViewById(R.id.isSeen);
+        visited.setChecked(sight.isVisited());
         visited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

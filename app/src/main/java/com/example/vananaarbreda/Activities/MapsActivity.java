@@ -39,7 +39,6 @@ import java.util.List;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private JsonHandler jsonHandler;
 
     //Layout
     private TextView textViewConnectionStatus;
@@ -54,7 +53,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        this.jsonHandler = new JsonHandler(this);
+        //Reads json data and insert this into database
+        new JsonHandler(this);
 
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
@@ -96,16 +96,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         routes.add(route);
-
-//        //Mock data Routes
-//        final List<Route> routes = new ArrayList<>();
-//        Route route1 = new Route("Breda");
-//        route1.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
-//        route1.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
-//        route1.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
-//        route1.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
-//        route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
-//        routes.add(route1);
 
         //Creates popupwindow
         PopupWindow popupWindow = new PopupWindow(this);
@@ -153,10 +143,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "onMapReady() called");
 
         this.mMap = googleMap;
+        MapHandler.getInstance(this).setMap(mMap);
 
         this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
         this.mMap.setMyLocationEnabled(true);
-        this.mMap.setMinZoomPreference(14);
+        //this.mMap.setMinZoomPreference(14);
 
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
@@ -174,8 +165,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Sends a message to the mapHandler to display the currently selected route on the map
     private void buildRoute(Route route){
         MapHandler.getInstance(this).setRoute(route);
-        MapHandler.getInstance(this).buildWaypoints(mMap);
-        MapHandler.getInstance(this).buildRoute(mMap);
+        MapHandler.getInstance(this).buildWaypoints();
+        MapHandler.getInstance(this).buildRoute();
     }
 
     @Override

@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
+import com.example.vananaarbreda.Route.DatasetChangedListener;
 import com.example.vananaarbreda.Route.Route;
+import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -16,8 +18,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MapHandler {
+public class MapHandler implements DatasetChangedListener {
 
     //statics
     private static final String TAG  = MapHandler.class.getSimpleName();
@@ -26,10 +29,14 @@ public class MapHandler {
     //Attributes
     private Context context;
     private Route route;
+    private GoogleMap googleMap;
+    private List<Marker> markers;
 
     private MapHandler(Context context){
         this.context = context;
+        RouteDB.getInstance(this.context).setDataSetChangedListener(this);
         GPSHandler.getInstance(this.context).setMapHandler(this);
+        this.markers = new ArrayList<>();
     }
 
     public static MapHandler getInstance(Context context){
@@ -42,8 +49,9 @@ public class MapHandler {
         return instance;
     }
 
-    public void buildWaypoints(GoogleMap googleMap){
-        googleMap.clear();
+    public void buildWaypoints(){
+        clearMarkers();
+
         Log.d(TAG, "buildWaypoints() called");
 
         for(final Coordinate coordinate : route.getCoordinates()){
@@ -51,6 +59,8 @@ public class MapHandler {
             //Adding marker to map
             Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(coordinate.getLatitude(), coordinate.getLongitude())));
             marker.setTag(coordinate.getSight());
+
+            this.markers.add(marker);
 
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
@@ -72,15 +82,28 @@ public class MapHandler {
         }
     }
 
+    public void clearMarkers(){
+        Log.d(TAG, "clearMarkers() called");
+        for (Marker marker : markers){
+            marker.remove();
+        }
+        this.markers.clear();
+        Log.d(TAG, "Cleared all markers from map and local List");
+    }
+
     public void setRoute(Route route){
         this.route = route;
+    }
+
+    public void setMap(GoogleMap googleMap){
+        this.googleMap = googleMap;
     }
 
     public Route getRoute(){
         return this.route;
     }
 
-    public void buildRoute(GoogleMap googleMap) {
+    public void buildRoute() {
 
         //TODO make a volley call to the direction API
         ArrayList<LatLng> latLngs = new ArrayList<>();
@@ -95,4 +118,14 @@ public class MapHandler {
 
     }
 
+    @Override
+    public void onDataSetChanged() {
+        Log.d(TAG, "onDataSetChanged() called");
+        Route route = new Route(this.route.getName());
+        for (Coordinate coordinate : RouteDB.getInstance(this.context).readValues()){
+            route.addCoordinate(coordinate);
+        }
+        this.route = route;
+        buildWaypoints();
+    }
 }
