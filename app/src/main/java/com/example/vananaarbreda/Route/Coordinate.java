@@ -24,12 +24,6 @@ public class Coordinate {
         this.sight = new Sight(ID, name, desc, isVisited);
     }
 
-    public Coordinate(double longitude, double latitude, Sight sight) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.sight = sight;
-    }
-
     public Sight getSight(){
         return sight;
     }

@@ -48,7 +48,7 @@ public class JsonHandler {
                 photos[j] = photoLinks.getString(j);
             }
             Sight s = new Sight(id, name, desc, isVisited);
-            Coordinate coord = new Coordinate(coords.latitude, coords.latitude, s);
+            Coordinate coord = new Coordinate(coords.latitude, coords.longitude, s);
             database.insertValue(coord, s);
         }
 

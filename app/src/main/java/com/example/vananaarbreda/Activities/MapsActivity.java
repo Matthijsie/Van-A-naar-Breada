@@ -22,7 +22,9 @@ import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
+import com.example.vananaarbreda.Route.JsonHandler;
 import com.example.vananaarbreda.Route.Route;
+import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +39,8 @@ import java.util.List;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private RouteDB database;
+    private JsonHandler jsonHandler;
 
     //Layout
     private TextView textViewConnectionStatus;
@@ -50,6 +54,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        database = new RouteDB(this);
+        jsonHandler = new JsonHandler(this, database);
 
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
@@ -85,15 +92,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //TODO MAKE CALL TO DATABASE TO GET ALL ROUTES AND SHOW THEM HERE
 
-        //Mock data Routes
         final List<Route> routes = new ArrayList<>();
-        Route route1 = new Route("Breda");
-        route1.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
-        route1.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
-        route1.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
-        route1.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
-        route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
-        routes.add(route1);
+        Route route = new Route("Breda");
+
+        for (Coordinate coordinate : database.readValues()){
+            route.addCoordinate(coordinate);
+        }
+
+        routes.add(route);
+
+//        //Mock data Routes
+//        final List<Route> routes = new ArrayList<>();
+//        Route route1 = new Route("Breda");
+//        route1.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
+//        route1.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
+//        route1.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+//        route1.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
+//        route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
+//        routes.add(route1);
 
         //Creates popupwindow
         PopupWindow popupWindow = new PopupWindow(this);
@@ -105,12 +121,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         listViewDogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "User clicked on route");
+
                 if (checkIfAlreadyHavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     buildRoute(routes.get(position));
+                    Log.d(TAG, "Build route");
                 }else {
                     textViewConnectionStatus.setText(R.string.location_request_no_permission);
                 }
-                Log.d(TAG, "User clicked on route");
             }
         });
 
@@ -142,7 +160,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
         this.mMap.setMyLocationEnabled(true);
-        this.mMap.setMinZoomPreference(14);
+        //this.mMap.setMinZoomPreference(14);
 
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);

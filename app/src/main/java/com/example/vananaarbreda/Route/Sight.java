@@ -20,10 +20,6 @@ public class Sight implements Serializable {
         this.isVisited = false;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Sight(int ID, String name, String description, boolean isVisited) {
         this.ID = ID;
         this.name = name;
