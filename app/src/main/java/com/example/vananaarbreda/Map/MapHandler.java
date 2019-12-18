@@ -15,11 +15,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapHandler {
 
     private static MapHandler instance;
     private Context context;
+    private GoogleMap maps;
 
     private MapHandler(Context context){
         this.context = context;
@@ -67,5 +69,14 @@ public class MapHandler {
         }
 
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
+    }
+
+    public void buildRoute(List<LatLng> latLngs){
+
+            maps.addPolyline(new PolylineOptions().addAll(latLngs));
+    }
+
+    public void setMap(GoogleMap googleMap){
+        this.maps = googleMap;
     }
 }

@@ -83,7 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
-                Log.e(TAG, "Got location update: " + locationResult);
+                //Log.e(TAG, "Got location update: " + locationResult);
                 if (locationResult == null){
                     return;
                 }
@@ -111,6 +111,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        MapHandler.getInstance(this).setMap(googleMap);
         mMap = googleMap;
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
@@ -129,8 +130,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
         route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
         route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+        route.addCoordinate(new Coordinate(52.9722222,6.8869444, new Sight("","Pas ten westen van monument")));
+        route.addCoordinate(new Coordinate(53.1666667,6.7341667, new Sight("The Light House","")));
         MapHandler.getInstance(this).buildWaypoints(mMap, route);
-        MapHandler.getInstance(this).buildRoute(mMap, route);
+        //MapHandler.getInstance(this).buildRoute(mMap, route);
         GPSHandler.getInstance(this).requestRoute(route);
 
     }
