@@ -1,0 +1,20 @@
+[
+  {
+    "ID" : 1,
+    "Name" : "VVV",
+    "Desc" : "Beginpunt van de route",
+    "lat" : 51.356467,
+    "long" : 4.467650,
+    "isVisited" : false,
+    "Photos" : [0, 1, 2]
+  },
+  {
+    "ID" : 2,
+    "Name" : "Liefdeszuster",
+    "Desc" : "Geen idee wat dit is lol",
+    "lat" : 51.355967,
+    "long" : 4.467633,
+    "isVisited" : false,
+    "Photos" : [0, 1, 2]
+  }
+]

@@ -17,6 +17,14 @@ public class Sight {
 
     }
 
+    public Sight(int ID, String name, String description, boolean isVisited) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        //this.images = images;
+        this.isVisited = isVisited;
+    }
+
     public int getID() {
         return ID;
     }
