@@ -9,18 +9,23 @@ public class Route {
     private List<Coordinate> coordinates;
 
     public Route(){
-
+        coordinates = new ArrayList<>();
     }
 
-    public Sight getSights(){
-        return null;
+    public List<Sight> getSights(){
+        List<Sight> sights = new ArrayList<>();
+
+        for (Coordinate coordinate : coordinates){
+            sights.add(coordinate.getSight());
+        }
+        return sights;
     }
 
-    public ArrayList<Coordinate> getCoordinates(){
-        return null;
+    public List<Coordinate> getCoordinates(){
+        return coordinates;
     }
 
     public void addCoordinate(Coordinate coordinate){
-
+        coordinates.add(coordinate);
     }
 }
