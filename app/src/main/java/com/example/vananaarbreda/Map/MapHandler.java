@@ -12,6 +12,8 @@ import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -60,6 +62,10 @@ public class MapHandler implements DatasetChangedListener {
             Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(coordinate.getLatitude(), coordinate.getLongitude())));
             marker.setTag(coordinate.getSight());
 
+            if (coordinate.getSight().isVisited()) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            }
+            
             this.markers.add(marker);
 
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
