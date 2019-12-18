@@ -1,0 +1,361 @@
+[{
+  "ID": 1,
+  "Name": "VVV Beginpunt tot maart 2019*",
+  "Desc": "",
+  "latitude": 51.588714,
+  "longitude": 4.777158,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 2,
+  "Name": "Liefdeszuster*",
+  "Desc": "",
+  "latitude": 51.593278,
+  "longitude": 4779388,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 3,
+  "Name": "Nassau Baronie Monument*",
+  "Desc": "",
+  "latitude": 51.5925,
+  "longitude": 4.779695,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 4,
+  "Name": "Pad ten westen van monument*",
+  "Desc": "",
+  "latitude": 53.111111111111114,
+  "longitude": 6.8869444444444445,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 5,
+  "Name": "The Light House*",
+  "Desc": "",
+  "latitude": 53.166666666666671,
+  "longitude": 6.7341666666666669,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 6,
+  "Name": "Tussenstop*",
+  "Desc": "",
+  "latitude": 53.138888888888893,
+  "longitude": 6.6416666666666666,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 7,
+  "Name": "Einde park*",
+  "Desc": "",
+  "latitude": 52.796388888888892,
+  "longitude": 6.4888888888888889,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 8,
+  "Name": "Kasteel van Breda\tKasteelplein*",
+  "Desc": "",
+  "latitude": 52.796388888888892,
+  "longitude": 6.35,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 9,
+  "Name": "Stadhouderspoort*",
+  "Desc": "",
+  "latitude": 52.643611111111113,
+  "longitude": 6.3452777777777776,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 10,
+  "Name": "Kruising Kasteelplein/Cingelstraat*",
+  "Desc": "",
+  "latitude": 52.75,
+  "longitude": 6.322222222222222,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 11,
+  "Name": "Bocht Cingelstraat*",
+  "Desc": "",
+  "latitude": 52.759166666666673,
+  "longitude": 6.155555555555555,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 12,
+  "Name": "Huis van Brecht (rechter zijde)*",
+  "Desc": "",
+  "latitude": 52.69916666666667,
+  "longitude": 6.0491666666666664,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 13,
+  "Name": "Spanjaardsgat (rechter zijde)*",
+  "Desc": "",
+  "latitude": 52.726944444444449,
+  "longitude": 5.8963888888888887,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 14,
+  "Name": "Begin Vismarkt*",
+  "Desc": "",
+  "latitude": 52.666666666666671,
+  "longitude": 5.8777777777777782,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 15,
+  "Name": "Begin Havermarkt*",
+  "Desc": "",
+  "latitude": 52.588055555555556,
+  "longitude": 6.0630555555555556,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 16,
+  "Name": "Kruising Torenstraat/Kerkplein*",
+  "Desc": "",
+  "latitude": 52.490833333333335,
+  "longitude": 6.1369444444444445,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 17,
+  "Name": "Grote Kerk*",
+  "Desc": "",
+  "latitude": 52.5,
+  "longitude": 6.2019444444444449,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 18,
+  "Name": "Kruising Torenstraat/Kerkplein*",
+  "Desc": "",
+  "latitude": 52.490833333333335,
+  "longitude": 6.1369444444444445,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 19,
+  "Name": "Het Poortje*",
+  "Desc": "",
+  "latitude": 52.393611111111113,
+  "longitude": 6.1786111111111115,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 20,
+  "Name": "Ridderstraat*",
+  "Desc": "",
+  "latitude": 52.208333333333336,
+  "longitude": 6.280555555555555,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 21,
+  "Name": "Grote Markt\tZuidpunt Grote Markt*",
+  "Desc": "",
+  "latitude": 52.263888888888893,
+  "longitude": 6.4147222222222222,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 22,
+  "Name": "Bevrijdingsmonument*",
+  "Desc": "",
+  "latitude": 52.365833333333335,
+  "longitude": 6.3777777777777782,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 23,
+  "Name": "Stadhuis\tVVV beginpunt vanaf 2020*",
+  "Desc": "",
+  "latitude": 52.486111111111114,
+  "longitude": 6.3408333333333333,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 24,
+  "Name": "Terug naar begin Grote Markt*",
+  "Desc": "",
+  "latitude": 52.356388888888894,
+  "longitude": 6.3825,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 25,
+  "Name": "Zuidpunt Grote Markt*",
+  "Desc": "",
+  "latitude": 52.277777777777779,
+  "longitude": 6.4147222222222222,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 26,
+  "Name": "Antonius van Paduakerk\tSt Janstraat*",
+  "Desc": "",
+  "latitude": 52.300833333333337,
+  "longitude": 6.530555555555555,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 27,
+  "Name": "Kruising St.Janstraat/Molenstraat*",
+  "Desc": "",
+  "latitude": 52.4075,
+  "longitude": 6.7388888888888889,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 28,
+  "Name": "Bibliotheek-nieuwe Veste*",
+  "Desc": "",
+  "latitude": 52.361111111111114,
+  "longitude": 6.8130555555555556,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 29,
+  "Name": "Kruising Molenstraat/Kloosterplein*",
+  "Desc": "",
+  "latitude": 52.254722222222227,
+  "longitude": 7.0258333333333329,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 30,
+  "Name": "Kloosterkazerne\tHuidige Casino*",
+  "Desc": "",
+  "latitude": 52.314722222222223,
+  "longitude": 7.1602777777777771,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 31,
+  "Name": "Chasse theater*",
+  "Desc": "",
+  "latitude": 52.31944444444445,
+  "longitude": 7.322222222222222,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 32,
+  "Name": "Kruising Kloosterplein/Vlaszak*",
+  "Desc": "",
+  "latitude": 52.31944444444445,
+  "longitude": 7.197222222222222,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 33,
+  "Name": "Binding van Isaac\tGrasveld Vlaszak*",
+  "Desc": "",
+  "latitude": 52.463055555555556,
+  "longitude": 7.1369444444444445,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 34,
+  "Name": "Kruising Vlaszak/Boschstraat*",
+  "Desc": "",
+  "latitude": 52.611111111111114,
+  "longitude": 7.0630555555555556,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 35,
+  "Name": "Beyerd*",
+  "Desc": "",
+  "latitude": 52.638888888888893,
+  "longitude": 7.155555555555555,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 36,
+  "Name": "Kruising Vlaszak/Boschstraat*",
+  "Desc": "",
+  "latitude": 52.611111111111114,
+  "longitude": 7.0630555555555556,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 37,
+  "Name": "Gasthuispoort*",
+  "Desc": "",
+  "latitude": 52.62027777777778,
+  "longitude": 6.9888888888888889,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 38,
+  "Name": "Ingang Veemarktstraat*",
+  "Desc": "",
+  "latitude": 52.597222222222221,
+  "longitude": 6.9658333333333333,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 39,
+  "Name": "1e bocht Veemarktstraat*",
+  "Desc": "",
+  "latitude": 52.5325,
+  "longitude": 6.9380555555555556,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 40,
+  "Name": "Kruising Veemarktstraat/St.Annastraat*",
+  "Desc": "",
+  "latitude": 52.453611111111115,
+  "longitude": 6.7111111111111112,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 41,
+  "Name": "Willem Merkxtuin\tIngang Willem Merkxtuin*",
+  "Desc": "",
+  "latitude": 52.546388888888892,
+  "longitude": 6.6463888888888887,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 42,
+  "Name": "Kruising St.Annastraat/Catharinastraat*",
+  "Desc": "",
+  "latitude": 52.638888888888893,
+  "longitude": 6.6230555555555553,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 43,
+  "Name": "Begijnenhof\tIngang Begijnenhof*",
+  "Desc": "",
+  "latitude": 52.643611111111113,
+  "longitude": 6.7158333333333333,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 44,
+  "Name": "Kruising St.Annastraat/Catharinastraat*",
+  "Desc": "",
+  "latitude": 52.638888888888893,
+  "longitude": 6.6230555555555553,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}, {
+  "ID": 45,
+  "Name": "Einde stadswandeling\tEindpunt tot maart 2019+",
+  "Desc": "",
+  "latitude": 52.611111111111114,
+  "longitude": 6.3638888888888889,
+  "isVisited": false,
+  "Photos": [0, 0, 0]
+}]
