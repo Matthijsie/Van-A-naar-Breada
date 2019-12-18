@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 public class RouteDB extends SQLiteOpenHelper {
 
-    private static final String TAG = "MetingManager";
+    private static final String TAG = RouteDB.class.getSimpleName();
+    private static RouteDB instance;
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DATABASE";
@@ -39,7 +40,14 @@ public class RouteDB extends SQLiteOpenHelper {
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-    public RouteDB(Context context) {
+    public static RouteDB getInstance(Context context){
+        if (instance == null){
+            instance = new RouteDB(context);
+        }
+        return instance;
+    }
+
+    private RouteDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -69,6 +77,22 @@ public class RouteDB extends SQLiteOpenHelper {
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
         db.insert(TABLE_NAME, null, values);
+    }
+
+    public void updateSight(Sight sight){
+        Log.d(TAG, "üpdateSightVisited() called");
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_ID, sight.getID());
+        values.put(COL_NAME, sight.getName());
+        values.put(COL_DESCRIPTION, sight.getDescription());
+        values.put(COL_PHOTOLINKS, "");
+        values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
+
+        String whereClause = COL_ID + "=" + sight.getID();
+
+        db.update(TABLE_NAME, values, whereClause, null);
+        Log.d(TAG, "updated database record with ID: " + sight.getID());
     }
 
     public void resetTable() {

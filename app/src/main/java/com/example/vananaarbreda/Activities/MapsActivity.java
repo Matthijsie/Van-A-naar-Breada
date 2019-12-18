@@ -39,7 +39,6 @@ import java.util.List;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private RouteDB database;
     private JsonHandler jsonHandler;
 
     //Layout
@@ -55,8 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        database = new RouteDB(this);
-        jsonHandler = new JsonHandler(this, database);
+        this.jsonHandler = new JsonHandler(this);
 
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
@@ -90,12 +88,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public PopupWindow popupWindowRoutes() {
         Log.d(TAG, "popupWindowRoutes() called");
 
-        //TODO MAKE CALL TO DATABASE TO GET ALL ROUTES AND SHOW THEM HERE
-
         final List<Route> routes = new ArrayList<>();
         Route route = new Route("Breda");
 
-        for (Coordinate coordinate : database.readValues()){
+        for (Coordinate coordinate : RouteDB.getInstance(this).readValues()){
             route.addCoordinate(coordinate);
         }
 
@@ -160,7 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
         this.mMap.setMyLocationEnabled(true);
-        //this.mMap.setMinZoomPreference(14);
+        this.mMap.setMinZoomPreference(14);
 
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);

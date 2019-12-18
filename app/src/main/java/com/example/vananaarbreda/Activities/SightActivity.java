@@ -2,24 +2,15 @@ package com.example.vananaarbreda.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.vananaarbreda.R;
-import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.JsonHandler;
 import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
-
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class SightActivity extends AppCompatActivity {
 
@@ -47,7 +38,8 @@ public class SightActivity extends AppCompatActivity {
         visited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //TODO in database aanpassen
+                sight.setVisited(b);
+                RouteDB.getInstance(getApplicationContext()).updateSight(sight);
             }
         });
     }

@@ -15,13 +15,11 @@ import java.nio.charset.StandardCharsets;
 public class JsonHandler {
     private final String PATH = "routepoints.json";
     private Context context;
-    private RouteDB database;
 
-    public JsonHandler(Context context, RouteDB database) {
+    public JsonHandler(Context context) {
         this.context = context;
-        this.database = database;
 
-        database.resetTable();
+        RouteDB.getInstance(this.context).resetTable();
         try {
             insertJsonIntoDatabase();
         } catch (JSONException e) {
@@ -49,7 +47,7 @@ public class JsonHandler {
             }
             Sight s = new Sight(id, name, desc, isVisited);
             Coordinate coord = new Coordinate(coords.latitude, coords.longitude, s);
-            database.insertValue(coord, s);
+            RouteDB.getInstance(this.context).insertValue(coord, s);
         }
 
     }
