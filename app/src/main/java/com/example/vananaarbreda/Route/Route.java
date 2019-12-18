@@ -8,8 +8,9 @@ public class Route {
     private String name;
     private List<Coordinate> coordinates;
 
-    public Route(){
+    public Route(String name){
         coordinates = new ArrayList<>();
+        this.name = name;
     }
 
     public List<Sight> getSights(){
@@ -27,5 +28,9 @@ public class Route {
 
     public void addCoordinate(Coordinate coordinate){
         coordinates.add(coordinate);
+    }
+
+    public String getName(){
+        return name;
     }
 }

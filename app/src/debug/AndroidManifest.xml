@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.vananaarbreda">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -8,6 +9,8 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
@@ -21,6 +24,12 @@
         <activity android:name=".Activities.HelpActivity" />
         <activity android:name=".Activities.SightActivity" />
 
+        <receiver android:name=".Map.GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <service android:name=".Map.GeofenceTransitionsIntentService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

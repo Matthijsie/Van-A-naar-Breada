@@ -15,6 +15,7 @@ public class Sight implements Serializable {
     public Sight(String name, String description){
         this.name = name;
         this.description = description;
+        this.isVisited = false;
     }
 
     public String getName() {
@@ -27,5 +28,9 @@ public class Sight implements Serializable {
 
     public Bitmap getImages() {
         return images;
+    }
+
+    public boolean isVisited(){
+        return this.isVisited;
     }
 }

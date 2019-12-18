@@ -4,19 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.MapHandler;
@@ -24,32 +24,24 @@ import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Route route;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-    private Location lastKnownLocation;
-    private boolean requestingLocationUpdates;
-    private TextView textViewConnectionStatus;
-    private Button buttonHelp;
 
+    //Layout
+    private TextView textViewConnectionStatus;
+
+    //statics
     private static final LatLng BREDA = new LatLng(51.5719149, 4.768323);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -59,46 +51,79 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
-        buttonHelp = findViewById(R.id.buttonHelp);
+        //setting layout
+        this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
+        Button buttonHelp = findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //opens a new screen with information about the app
+                Log.d(TAG, "help button pressed");
+
                 Intent intent = new Intent(v.getContext(), HelpActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
 
-        //Define location provider
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        //define location request
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10 * 1000);
-        locationRequest.setSmallestDisplacement(0.0f);
-
-        //define callback when location provider gets a new location
-        locationCallback = new LocationCallback(){
+        Button routesButton = findViewById(R.id.buttonRoutes);
+        routesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onClick(View v) {
+                //Creates a popupwindow with a listview
+                Log.d(TAG, "routes button pressed");
 
-                Log.e(TAG, "Got location update: " + locationResult);
-                if (locationResult == null){
-                    return;
-                }
-
-                for (Location location : locationResult.getLocations()){
-                    if (location != null){
-                        lastKnownLocation = location;
-                    }
-                }
+                popupWindowRoutes().showAsDropDown(v);
             }
-        };
+        });
 
         getLocationPermission();
     }
 
+    //Creates a popup window with a listview
+    public PopupWindow popupWindowRoutes() {
+        Log.d(TAG, "popupWindowRoutes() called");
+
+        //TODO MAKE CALL TO DATABASE TO GET ALL ROUTES AND SHOW THEM HERE
+
+        //Mock data Routes
+        final List<Route> routes = new ArrayList<>();
+        Route route1 = new Route("Breda");
+        route1.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));      //VVV Breda
+        route1.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
+        route1.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
+        route1.addCoordinate(new Coordinate(51.585773, 4.792621, new Sight("AVANS", "")));    //Avans
+        route1.addCoordinate(new Coordinate(51.788679, 4.662715, new Sight("Mij thuis", "")));//thuis
+        routes.add(route1);
+
+        //Creates popupwindow
+        PopupWindow popupWindow = new PopupWindow(this);
+
+        //Creates listview
+        ListView listViewDogs = new ListView(this);
+        listViewDogs.setAdapter(new CustomListViewAdapter(this, routes));
+
+        listViewDogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (checkIfAlreadyHavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    buildRoute(routes.get(position));
+                }else {
+                    textViewConnectionStatus.setText(R.string.location_request_no_permission);
+                }
+                Log.d(TAG, "User clicked on route");
+            }
+        });
+
+        //some  visual settings
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(250);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        //set the list view as pop up window content
+        popupWindow.setContentView(listViewDogs);
+
+        return popupWindow;
+    }
 
     /**
      * Manipulates the map once available.
@@ -111,32 +136,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        Log.d(TAG, "onMapReady() called");
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
-        mMap.setMyLocationEnabled(true);
-        mMap.setMinZoomPreference(14);
+        this.mMap = googleMap;
 
-        UiSettings settings = mMap.getUiSettings();
+        this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
+        this.mMap.setMyLocationEnabled(true);
+        this.mMap.setMinZoomPreference(14);
+
+        UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
         settings.setMyLocationButtonEnabled(true);
         settings.setTiltGesturesEnabled(true);
         settings.setRotateGesturesEnabled(true);
         settings.setMapToolbarEnabled(true);
 
-        //TODO remove this when data system gets added and make call to database
-        Route route = new Route();
-        route.addCoordinate(new Coordinate(51.588714, 4.777158, new Sight("VVV", "")));   //VVV Breda
-        route.addCoordinate(new Coordinate(51.593278, 4.779388, new Sight("Zuster", "")));   //LiefdesZuster
-        route.addCoordinate(new Coordinate(51.5925, 4.779695, new Sight("Nassau", "")));     //Nassau Baronie Monument
-        MapHandler.getInstance(this).buildWaypoints(mMap, route);
-        MapHandler.getInstance(this).buildRoute(mMap, route);
-        GPSHandler.getInstance(this).requestRoute(route);
+        Log.d(TAG, "map initialised");
+        MapHandler.getInstance(this);
 
+        this.textViewConnectionStatus.setText("");
+    }
+
+    //Sends a message to the mapHandler to display the currently selected route on the map
+    private void buildRoute(Route route){
+        MapHandler.getInstance(this).setRoute(route);
+        MapHandler.getInstance(this).buildWaypoints(mMap);
+        MapHandler.getInstance(this).buildRoute(mMap);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionResult() called");
+
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
 
@@ -145,7 +176,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     onLocationPermission();
                 }else {
-                    Toast.makeText(this, "Locatie geweigerd", Toast.LENGTH_LONG).show();
+                    this.textViewConnectionStatus.setText(R.string.Location_not_allowed);
                 }
                 break;
 
@@ -153,43 +184,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    //Initializes the check for location permission by user
     private void getLocationPermission(){
+        Log.d(TAG, "getLocationPermission() called");
 
         //Permission is not granted = ask user for permission
-        if (!checkIfAlreadyhavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (!checkIfAlreadyHavePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             }
 
-        //Permission is granted
+        //Permission is already granted
         }else {
             onLocationPermission();
         }
     }
 
-    private boolean checkIfAlreadyhavePermission(String permission) {
+    //Checks if given permission was given previously
+    private boolean checkIfAlreadyHavePermission(String permission) {
         int result = ContextCompat.checkSelfPermission(this, permission);
+        boolean hasPermission = result == PackageManager.PERMISSION_GRANTED;
 
-        return result == PackageManager.PERMISSION_GRANTED;
+        Log.d(TAG, "checkIfAlreadyHavePermission() called with result: " + hasPermission);
+
+        return hasPermission;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (requestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
-    private void startLocationUpdates(){
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-    }
-
+    //Gets called when the user has given permission
     private void onLocationPermission(){
-        requestingLocationUpdates = true;
+        Log.d(TAG, "onLocaionPermission() called");
+        this.textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        startLocationUpdates();
     }
 }

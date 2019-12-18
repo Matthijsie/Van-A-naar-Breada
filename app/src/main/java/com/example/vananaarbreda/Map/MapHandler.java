@@ -1,13 +1,14 @@
 package com.example.vananaarbreda.Map;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -18,25 +19,36 @@ import java.util.ArrayList;
 
 public class MapHandler {
 
+    //statics
+    private static final String TAG  = MapHandler.class.getSimpleName();
     private static MapHandler instance;
+
+    //Attributes
     private Context context;
+    private Route route;
 
     private MapHandler(Context context){
         this.context = context;
+        GPSHandler.getInstance(this.context).setMapHandler(this);
     }
 
     public static MapHandler getInstance(Context context){
+        Log.d(TAG, "getInstance() called");
         if (instance == null){
             instance = new MapHandler(context);
+            Log.d(TAG, "new MapHandler instance created");
         }
 
         return instance;
     }
 
+    public void buildWaypoints(GoogleMap googleMap){
+        googleMap.clear();
+        Log.d(TAG, "buildWaypoints() called");
 
-    public void buildWaypoints(GoogleMap googleMap, Route route){
         for(final Coordinate coordinate : route.getCoordinates()){
 
+            //Adding marker to map
             Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(coordinate.getLatitude(), coordinate.getLongitude())));
             marker.setTag(coordinate.getSight());
 
@@ -55,17 +67,32 @@ public class MapHandler {
                     }
                 }
             });
+            Log.d(TAG, "Marker added to map on coordinates: (" + coordinate.getLatitude() + " , " + coordinate.getLongitude() + ")");
+
         }
     }
 
-    public void buildRoute(GoogleMap googleMap, Route route){
+    public void setRoute(Route route){
+        this.route = route;
+    }
 
+    public Route getRoute(){
+        return this.route;
+    }
+
+    public void buildRoute(GoogleMap googleMap) {
+
+        //TODO make a volley call to the direction API
         ArrayList<LatLng> latLngs = new ArrayList<>();
 
-        for (Coordinate coordinate : route.getCoordinates()){
+        for (Coordinate coordinate : route.getCoordinates()) {
             latLngs.add(new LatLng(coordinate.getLatitude(), coordinate.getLongitude()));
         }
 
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
+
+        GPSHandler.getInstance(context).startLocationUpdating();
+
     }
+
 }
