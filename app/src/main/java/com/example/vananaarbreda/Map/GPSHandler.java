@@ -5,22 +5,30 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
+import android.util.Log;
 
 import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +41,8 @@ public class GPSHandler {
 
     //map and context
     private MapHandler mapHandler;
+    private GoogleMap maps;
+    private static final String TAG = GPSHandler.class.getSimpleName();
     private Context context;
 
     //Location
@@ -41,12 +51,14 @@ public class GPSHandler {
     private LocationCallback locationCallback;
     private Location lastKnownLocation;
     private Coordinate previousCoordinate;
+    private RequestQueue requestQueue;
 
     private GPSHandler(final Context context){
         this.context = context;
 
         this.fusedLocationProviderClient = new FusedLocationProviderClient(this.context);
         Log.d(TAG, "fusedLocationProviderClient created");
+        requestQueue = Volley.newRequestQueue(context);
 
         //define location request
         this.locationRequest = LocationRequest.create();

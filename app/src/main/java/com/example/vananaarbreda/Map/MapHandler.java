@@ -124,6 +124,15 @@ public class MapHandler implements DatasetChangedListener {
 
     }
 
+    public void buildRoute(List<LatLng> latLngs){
+
+            maps.addPolyline(new PolylineOptions().addAll(latLngs));
+    }
+
+    public void setMap(GoogleMap googleMap){
+        this.maps = googleMap;
+    }
+
     @Override
     public void onDataSetChanged() {
         Log.d(TAG, "onDataSetChanged() called");
