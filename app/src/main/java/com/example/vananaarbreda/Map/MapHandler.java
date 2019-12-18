@@ -110,27 +110,12 @@ public class MapHandler implements DatasetChangedListener {
     }
 
     public void buildRoute() {
-
-        //TODO make a volley call to the direction API
-        ArrayList<LatLng> latLngs = new ArrayList<>();
-
-        for (Coordinate coordinate : route.getCoordinates()) {
-            latLngs.add(new LatLng(coordinate.getLatitude(), coordinate.getLongitude()));
-        }
-
-        googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
-
+        GPSHandler.getInstance(this.context).requestRoute(this.route);
         GPSHandler.getInstance(context).startLocationUpdating();
-
     }
 
     public void buildRoute(List<LatLng> latLngs){
-
-            maps.addPolyline(new PolylineOptions().addAll(latLngs));
-    }
-
-    public void setMap(GoogleMap googleMap){
-        this.maps = googleMap;
+        googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
 
     @Override

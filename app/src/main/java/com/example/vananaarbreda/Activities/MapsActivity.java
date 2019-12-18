@@ -169,6 +169,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapHandler.getInstance(this).buildRoute();
     }
 
+    //Gets called when the user has given input in the request permission popup
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionResult() called");
