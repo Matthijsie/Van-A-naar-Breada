@@ -65,7 +65,7 @@ public class MapHandler implements DatasetChangedListener {
             if (coordinate.getSight().isVisited()) {
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             }
-            
+
             this.markers.add(marker);
 
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

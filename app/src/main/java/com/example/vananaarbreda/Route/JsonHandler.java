@@ -36,7 +36,7 @@ public class JsonHandler {
             int id = jsonObject.getInt("ID");
             String name = jsonObject.getString("Name");
             String desc = jsonObject.getString("Desc");
-            LatLng coords = new LatLng(jsonObject.getDouble("lat"), jsonObject.getDouble("long"));
+            LatLng coords = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
             boolean isVisited = jsonObject.getBoolean("isVisited");
             JSONArray photoLinks = jsonObject.getJSONArray("Photos");
 
