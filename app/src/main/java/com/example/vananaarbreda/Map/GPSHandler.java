@@ -29,6 +29,7 @@ public class GPSHandler {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private Location lastKnownLocation;
+    private Coordinate previousCoordinate;
 
     private GPSHandler(final Context context){
         this.context = context;
@@ -68,10 +69,11 @@ public class GPSHandler {
                                 Log.d(TAG, "User is withing " + MAXIMUM_WAYPOINT_RADIUS + " metres of a waypoint");
 
                                 //Start new intent if the user hasn't selected this waypoint as already seen
-                                if (!coordinate.getSight().isVisited()) {
+                                if (!coordinate.getSight().isVisited() && !coordinate.equals(previousCoordinate)) {
                                     Intent intent = new Intent(context, SightActivity.class);
                                     intent.putExtra("SIGHT", coordinate.getSight());
                                     context.startActivity(intent);
+                                    previousCoordinate = coordinate;
                                 }
                             }
                         }

@@ -8,7 +8,6 @@ import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.Sight;
-import com.google.android.gms.location.Geofence;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -17,7 +16,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MapHandler {
 
@@ -45,6 +43,7 @@ public class MapHandler {
     }
 
     public void buildWaypoints(GoogleMap googleMap){
+        googleMap.clear();
         Log.d(TAG, "buildWaypoints() called");
 
         for(final Coordinate coordinate : route.getCoordinates()){

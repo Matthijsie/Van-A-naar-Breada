@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
@@ -110,6 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }else {
                     textViewConnectionStatus.setText(R.string.location_request_no_permission);
                 }
+                Log.d(TAG, "User clicked on route");
             }
         });
 
