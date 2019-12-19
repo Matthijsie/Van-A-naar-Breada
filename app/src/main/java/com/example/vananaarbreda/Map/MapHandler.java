@@ -113,7 +113,7 @@ public class MapHandler implements DatasetChangedListener {
         GPSHandler.getInstance(context).startLocationUpdating();
     }
 
-    public void buildRoute(List<LatLng> latLngs){
+    public void setRoute(List<LatLng> latLngs){
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
 

@@ -172,7 +172,7 @@ public class GPSHandler {
                         }
                     }
 
-                    MapHandler.getInstance(context).buildRoute(latLngs);
+                    MapHandler.getInstance(context).setRoute(latLngs);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, e.toString());
