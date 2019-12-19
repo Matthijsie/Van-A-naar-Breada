@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Van A naar Breda</string>
     <string name="title_activity_maps">Map</string>
+    <string name="Location_not_allowed">Location not permitted, app might not work properly</string>
+    <string name="loading_map">Loading map, please wait</string>
+    <string name="location_error">Location error: check if you have location enabled</string>
+    <string name="location_request_no_permission">Action couldnt go through due to missing permissions</string>
+    <string name="help_explanation">Van A naar Breda is an application that helps you walk your route. When you start the application you can select the route you will walk today. When you select a route to walk you will start to see sights appearing on the map. Between the sights route for you to walk will form. When you get near one the markers a pop-up will be shown which shows a little information of the sight. When you are next to the sight you can tap it and it will show the name, visited button, a description and an picture of the sight. Tap the visited button to mark the sight as visited and when you’re ready move to the next sight. If you took an wrong turn by accident, the app will notify you that you are no longer following the route and will give you direction to how to get back to the route.</string>
 </resources>
