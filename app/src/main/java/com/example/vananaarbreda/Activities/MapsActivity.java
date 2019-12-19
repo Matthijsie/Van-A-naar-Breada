@@ -18,14 +18,12 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.vananaarbreda.Map.GPSHandler;
 import com.example.vananaarbreda.Map.MapHandler;
 import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.JsonHandler;
 import com.example.vananaarbreda.Route.Route;
 import com.example.vananaarbreda.Route.RouteDB;
-import com.example.vananaarbreda.Route.Sight;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -147,7 +145,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.mMap.moveCamera(CameraUpdateFactory.newLatLng(BREDA));
         this.mMap.setMyLocationEnabled(true);
-        //this.mMap.setMinZoomPreference(14);
+        this.mMap.setMinZoomPreference(14);
 
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);

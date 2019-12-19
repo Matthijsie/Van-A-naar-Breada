@@ -55,7 +55,7 @@ public class JsonHandler {
     // https://stackoverflow.com/questions/13814503/reading-a-json-file-in-android
 
     private String loadJSONFromAsset() {
-        String json = null;
+        String json;
         try {
             InputStream is = context.getResources().getAssets().open(PATH);
 

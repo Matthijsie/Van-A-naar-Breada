@@ -12,7 +12,6 @@ import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;

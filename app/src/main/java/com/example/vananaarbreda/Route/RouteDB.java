@@ -7,18 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.vananaarbreda.Map.MapHandler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RouteDB extends SQLiteOpenHelper {
 
+    //Attributes
     private Context context;
+    private List<DatasetChangedListener> subscribers;
     private DatasetChangedListener listener;
+
+    //statics
     private static final String TAG = RouteDB.class.getSimpleName();
     private static RouteDB instance;
 
+    //Database information
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DATABASE";
     private static final String TABLE_NAME = "sights";
@@ -54,6 +59,7 @@ public class RouteDB extends SQLiteOpenHelper {
     private RouteDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        this.subscribers = new ArrayList<>();
     }
 
     @Override
@@ -99,7 +105,9 @@ public class RouteDB extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, whereClause, null);
         Log.d(TAG, "updated database record with ID: " + sight.getID());
 
-        listener.onDataSetChanged();
+        for (DatasetChangedListener listener : subscribers){
+            listener.onDataSetChanged();
+        }
     }
 
     public void resetTable() {
@@ -136,6 +144,6 @@ public class RouteDB extends SQLiteOpenHelper {
     }
 
     public void setDataSetChangedListener(DatasetChangedListener listener){
-        this.listener = listener;
+        this.subscribers.add(listener);
     }
 }

@@ -1,10 +1,6 @@
 package com.example.vananaarbreda.Route;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.List;
 
 public class Coordinate {
 

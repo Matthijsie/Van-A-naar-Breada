@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
-import android.util.Log;
 
 import com.example.vananaarbreda.Activities.SightActivity;
 import com.example.vananaarbreda.Route.Coordinate;
@@ -15,20 +14,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vananaarbreda.Route.Coordinate;
 import com.example.vananaarbreda.Route.Route;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +37,6 @@ public class GPSHandler {
 
     //map and context
     private MapHandler mapHandler;
-    private GoogleMap maps;
     private Context context;
 
     //Location
@@ -110,6 +105,7 @@ public class GPSHandler {
 
     //Makes a volleyrequest to the google direction api
     public void requestRoute(Route route) {
+        Log.d(TAG, "requestRoute() called");
         List<Coordinate> coordinates = new ArrayList<>();
 
         for (Coordinate coordinate : route.getCoordinates()){
@@ -123,8 +119,8 @@ public class GPSHandler {
         doRequest(coordinates);
     }
 
-    public void doRequest (List<Coordinate> coordinates) {
-
+    private void doRequest (List<Coordinate> coordinates) {
+        Log.d(TAG, "doRequest() called");
         Coordinate firstCoordinate = coordinates.get(0);
         final Coordinate lastCoordinate = coordinates.get(coordinates.size() - 1);
 
@@ -138,8 +134,12 @@ public class GPSHandler {
             waypoints.add(coordinate);
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                buildUrl(origin, destination, "walking", waypoints), null, new Response.Listener<JSONObject>() {
+        Log.d(TAG, "Making JSON request");
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                buildUrl(origin, destination, "walking", waypoints),
+                null,
+                new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -184,10 +184,10 @@ public class GPSHandler {
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, error.toString());
                     }
-                });
+                }
+                );
         requestQueue.add(request);
     }
-
 
     public static GPSHandler getInstance(Context context){
         Log.d(TAG, "getInstance() called");
@@ -220,6 +220,7 @@ public class GPSHandler {
     }
 
     private String buildUrl(LatLng origin, LatLng dest, String directionMode, List<Coordinate> waypoints) {
+        Log.d(TAG, "buildUrl() called");
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         String mode = "mode=" + directionMode;
@@ -236,7 +237,7 @@ public class GPSHandler {
         String parameters = str_origin + "&" + str_dest + "&" + mode + "&" + str_waypoints;
 
         String url = "http://145.48.6.80:3000/directions?" + parameters + "&key=" + "d8170a45-2be1-4e27-86f6-a46502e272ce";
-
+        Log.d(TAG, "Built URL: " + url);
         return url;
     }
 }
