@@ -27,6 +27,10 @@ public class JsonHandler {
         }
     }
 
+    /**
+     * Puts data into the database on first startup
+     * @throws JSONException Can be caused by invalid parsing
+     */
     private void insertJsonIntoDatabase() throws JSONException {
         JSONArray array = new JSONArray(loadJSONFromAsset());
 
@@ -54,6 +58,10 @@ public class JsonHandler {
 
     // https://stackoverflow.com/questions/13814503/reading-a-json-file-in-android
 
+    /**
+     * Reads json from a file and converts this to a String
+     * @return The JSON from the file
+     */
     private String loadJSONFromAsset() {
         String json;
         try {

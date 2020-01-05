@@ -49,6 +49,11 @@ public class RouteDB extends SQLiteOpenHelper {
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
+    /**
+     * Gives the RouteDB instance object and creates one if there isnt one available
+     * @param context Used to set attributes on first initialization
+     * @return The RouteDB instance object
+     */
     public static RouteDB getInstance(Context context){
         if (instance == null){
             instance = new RouteDB(context);
@@ -75,6 +80,11 @@ public class RouteDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Inserts new values into the database
+     * @param coord the coordinate to be added in the record
+     * @param sight the sight to be added in the record
+     */
     public void insertValue(Coordinate coord, Sight sight) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -90,6 +100,10 @@ public class RouteDB extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
     }
 
+    /**
+     * Updates the information from a given sight
+     * @param sight the sight to be updated
+     */
     public void updateSight(Sight sight){
         Log.d(TAG, "üpdateSightVisited() called");
         SQLiteDatabase db = getWritableDatabase();
@@ -110,16 +124,28 @@ public class RouteDB extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Drops the current table and creates a new empty one
+     */
     public void resetTable() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(DROP_TABLE);
         db.execSQL(CREATE_TABLE);
     }
 
+    /**
+     *
+     * @param s the string to be changed into a string array
+     * @return the String array
+     */
     private String[] convertStringToArray(String s) {
         return s.split("\n");
     }
 
+    /**
+     * Requests all current records in the database
+     * @return a list of all Coordinates currently stored in the database
+     */
     public ArrayList<Coordinate> readValues() {
         String query = "SELECT * FROM " + TABLE_NAME + ";";
         SQLiteDatabase db = getReadableDatabase();
@@ -143,6 +169,10 @@ public class RouteDB extends SQLiteOpenHelper {
         return coordinates;
     }
 
+    /**
+     * Adds a listener to be informed when the data inside the database gets updated
+     * @param listener the listener to be added to the list of subscribers
+     */
     public void setDataSetChangedListener(DatasetChangedListener listener){
         this.subscribers.add(listener);
     }

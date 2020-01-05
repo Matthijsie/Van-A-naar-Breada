@@ -40,6 +40,11 @@ public class MapHandler implements DatasetChangedListener {
         this.markers = new ArrayList<>();
     }
 
+    /**
+     * Calls the MapHandler singleton
+     * @param context used for initializing certain attributes on first call
+     * @return The MapHandler instance object
+     */
     public static MapHandler getInstance(Context context){
         Log.d(TAG, "getInstance() called");
         if (instance == null){
@@ -50,6 +55,9 @@ public class MapHandler implements DatasetChangedListener {
         return instance;
     }
 
+    /**
+     * Places all markers on the map
+     */
     public void buildWaypoints(){
         clearMarkers();
 
@@ -87,6 +95,9 @@ public class MapHandler implements DatasetChangedListener {
         }
     }
 
+    /**
+     * Removes all markers from the map
+     */
     public void clearMarkers(){
         Log.d(TAG, "clearMarkers() called");
         for (Marker marker : markers){
@@ -96,23 +107,42 @@ public class MapHandler implements DatasetChangedListener {
         Log.d(TAG, "Cleared all markers from map and local List");
     }
 
+    /**
+     * Sets the route the maphandler needs to use
+     * @param route The route to be used by the maphandler
+     */
     public void setRoute(Route route){
         this.route = route;
     }
 
+    /**
+     * Sets the map the maphandler needs to update
+     * @param googleMap the map to be updated
+     */
     public void setMap(GoogleMap googleMap){
         this.googleMap = googleMap;
     }
 
+    /**
+     * Gets the currently selected route
+     * @return the currently used route by the MapHandler
+     */
     public Route getRoute(){
         return this.route;
     }
 
+    /**
+     * Calls the GPSHandler to make a request with the currently selected route, also starts location updating
+     */
     public void buildRoute() {
         GPSHandler.getInstance(this.context).requestRoute(this.route);
         GPSHandler.getInstance(context).startLocationUpdating();
     }
 
+    /**
+     * Sets a route on the map
+     * @param latLngs All coordinates the route line needs to go through
+     */
     public void setRoute(List<LatLng> latLngs){
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
     }
