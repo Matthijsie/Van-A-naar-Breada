@@ -97,7 +97,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
     }
 
-    //Creates a popup window with a listview
+    /**
+     * Creates a PopupWindow with a ListView
+     * @return the PopupWindow to be shown in the UI
+     */
     public PopupWindow popupWindowRoutes() {
         Log.d(TAG, "popupWindowRoutes() called");
 
@@ -178,14 +181,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.textViewConnectionStatus.setText("");
     }
 
-    //Sends a message to the mapHandler to display the currently selected route on the map
+    /**
+     * Sends a message to the mapHandler to display the currently selected route on the
+     * @param route the route that the MapHandler needs to use
+     */
     private void buildRoute(Route route){
+        Log.d(TAG, "buildRoute() called");
         MapHandler.getInstance(this).setRoute(route);
         MapHandler.getInstance(this).buildWaypoints();
         MapHandler.getInstance(this).buildRoute();
     }
 
-    //Gets called when the user has given input in the request permission popup
+    /**
+     * Gets called when the user has given input in the request permission popup
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionResult() called");
@@ -206,7 +215,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    //Initializes the check for location permission by user
+    /**
+     *  Initializes the check for location permission by user
+     */
     private void getLocationPermission(){
         Log.d(TAG, "getLocationPermission() called");
 
@@ -223,7 +234,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    //Checks if given permission was given previously
+    /**
+     * Used to check if the application already has a given permission
+     * @param permission The permission to check
+     * @return Whether or not the app has this permission already
+     */
     private boolean checkIfAlreadyHavePermission(String permission) {
         int result = ContextCompat.checkSelfPermission(this, permission);
         boolean hasPermission = result == PackageManager.PERMISSION_GRANTED;
@@ -233,13 +248,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return hasPermission;
     }
 
-    //Gets called when the user has given permission
+    /**
+     * Gets called when the user has given permission
+     */
     private void onLocationPermission(){
         Log.d(TAG, "onLocaionPermission() called");
         this.textViewConnectionStatus.setText(R.string.loading_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
 }

@@ -147,8 +147,9 @@ public class MapHandler implements DatasetChangedListener {
      * Sets a route on the map
      * @param latLngs All coordinates the route line needs to go through
      */
-    public void setRoute(List<LatLng> latLngs){
-        googleMap.addPolyline(new PolylineOptions().addAll(latLngs).jointType(JointType.ROUND));
+    protected void setRoute(List<LatLng> latLngs, int color){
+        Log.d(TAG, "setRoute() called");
+        googleMap.addPolyline(new PolylineOptions().addAll(latLngs).jointType(JointType.ROUND).color(color));
     }
 
     @Override
@@ -160,14 +161,5 @@ public class MapHandler implements DatasetChangedListener {
         }
         this.route = route;
         buildWaypoints();
-    }
-
-    public void onLocationUpdate(Location location){
-        Log.d(TAG, "onLocationUpdate() called");
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        Log.d(TAG, "Tried adding line to point (" + location.getLatitude() + "," + location.getLongitude() + ")");
-
-        googleMap.addPolyline(polylineOptions);
     }
 }

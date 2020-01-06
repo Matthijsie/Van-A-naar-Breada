@@ -2,6 +2,7 @@ package com.example.vananaarbreda.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
@@ -65,19 +66,27 @@ public class GPSHandler {
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
-                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
 
                 //return of location has an error
                 if (locationResult == null){
                     return;
                 }
 
+                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
+
                 //handle location
                 for (Location location : locationResult.getLocations()){
                     if (location != null){
+
+                        //uses both most recent and previous location to create a line segment
+                        if (lastKnownLocation != null) {
+                            List<LatLng> locations = new ArrayList<>();
+                            locations.add(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+                            locations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                            mapHandler.setRoute(locations, Color.RED);
+                        }
                         lastKnownLocation = location;
 
-                        mapHandler.onLocationUpdate(lastKnownLocation);
                         //Loops through all waypoints to see if one is within the given radius and sends user a notification
                         for(Coordinate coordinate : mapHandler.getRoute().getCoordinates()){
                             Location otherLocation = new Location(coordinate.getSight().getName());
@@ -85,7 +94,7 @@ public class GPSHandler {
                             otherLocation.setLongitude(coordinate.getLongitude());
 
                             if (lastKnownLocation.distanceTo(otherLocation) <= MAXIMUM_WAYPOINT_RADIUS){
-                                Log.d(TAG, "User is withing " + MAXIMUM_WAYPOINT_RADIUS + " metres of a waypoint");
+                                Log.d(TAG, "User is within " + MAXIMUM_WAYPOINT_RADIUS + " meters of a waypoint");
 
                                 //Start new intent if the user hasn't selected this waypoint as already seen
                                 if (!coordinate.getSight().isVisited() && !coordinate.equals(previousCoordinate)) {
@@ -181,7 +190,7 @@ public class GPSHandler {
                         }
                     }
 
-                    MapHandler.getInstance(context).setRoute(latLngs);
+                    MapHandler.getInstance(context).setRoute(latLngs, Color.BLACK);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, e.toString());
