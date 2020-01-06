@@ -1,6 +1,6 @@
 [{
   "ID": 1,
-  "Name": "VVV Beginpunt tot maart 2019",
+  "Name": "Beginpunt",
   "Desc": "",
   "latitude": 51.59411166666667,
   "longitude": 4.7794166666666662,
@@ -176,7 +176,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 23,
-  "Name": "Stadhuis\tVVV beginpunt vanaf 2020",
+  "Name": "Stadhuis",
   "Desc": "",
   "latitude": 51.58875,
   "longitude": 4.776111666666667,
@@ -352,7 +352,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 45,
-  "Name": "Einde stadswandeling\tEindpunt tot maart 2019",
+  "Name": "Einde stadswandeling",
   "Desc": "",
   "latitude": 51.5895,
   "longitude": 4.77625,

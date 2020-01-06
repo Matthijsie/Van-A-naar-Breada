@@ -85,6 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         sightListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Sights button pressed");
                 Intent intent = new Intent(v.getContext(), SightListActivity.class);
                 v.getContext().startActivity(intent);
             }
