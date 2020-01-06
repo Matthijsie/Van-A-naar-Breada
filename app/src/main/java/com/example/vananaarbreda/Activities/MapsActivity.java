@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -56,7 +58,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
-        Button buttonHelp = findViewById(R.id.buttonHelp);
+        ImageButton buttonHelp = findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +78,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d(TAG, "routes button pressed");
 
                 popupWindowRoutes().showAsDropDown(v);
+            }
+        });
+
+        ImageButton sightListButton = findViewById(R.id.imageButtonSightList);
+        sightListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SightListActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 
