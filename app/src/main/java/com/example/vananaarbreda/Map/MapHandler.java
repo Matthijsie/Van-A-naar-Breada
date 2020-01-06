@@ -2,6 +2,8 @@ package com.example.vananaarbreda.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Location;
 import android.util.Log;
 
 import com.example.vananaarbreda.Activities.SightActivity;
@@ -13,6 +15,8 @@ import com.example.vananaarbreda.Route.Sight;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Cap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -144,7 +148,7 @@ public class MapHandler implements DatasetChangedListener {
      * @param latLngs All coordinates the route line needs to go through
      */
     public void setRoute(List<LatLng> latLngs){
-        googleMap.addPolyline(new PolylineOptions().addAll(latLngs));
+        googleMap.addPolyline(new PolylineOptions().addAll(latLngs).jointType(JointType.ROUND));
     }
 
     @Override
@@ -156,5 +160,14 @@ public class MapHandler implements DatasetChangedListener {
         }
         this.route = route;
         buildWaypoints();
+    }
+
+    public void onLocationUpdate(Location location){
+        Log.d(TAG, "onLocationUpdate() called");
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        Log.d(TAG, "Tried adding line to point (" + location.getLatitude() + "," + location.getLongitude() + ")");
+
+        googleMap.addPolyline(polylineOptions);
     }
 }

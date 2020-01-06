@@ -77,6 +77,7 @@ public class GPSHandler {
                     if (location != null){
                         lastKnownLocation = location;
 
+                        mapHandler.onLocationUpdate(lastKnownLocation);
                         //Loops through all waypoints to see if one is within the given radius and sends user a notification
                         for(Coordinate coordinate : mapHandler.getRoute().getCoordinates()){
                             Location otherLocation = new Location(coordinate.getSight().getName());
@@ -119,6 +120,7 @@ public class GPSHandler {
                 coordinates.clear();
             }
         }
+        //coordinates.add(coordinates.get(0));
         doRequest(coordinates);
     }
 

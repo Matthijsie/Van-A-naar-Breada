@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +162,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.mMap.setMyLocationEnabled(true);
         this.mMap.setMinZoomPreference(14);
 
+        LatLngBounds BREDA = new LatLngBounds(new LatLng(51.59099, 4.8600000), new LatLng(51.59100, 4.8599999));
+        this.mMap.setLatLngBoundsForCameraTarget(BREDA);
+
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
         settings.setMyLocationButtonEnabled(true);
@@ -234,4 +240,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+
 }
