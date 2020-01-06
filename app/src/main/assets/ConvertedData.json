@@ -1,6 +1,6 @@
 [{
   "ID": 1,
-  "Name": "VVV Beginpunt tot maart 2019*",
+  "Name": "VVV Beginpunt tot maart 2019",
   "Desc": "",
   "latitude": 51.59411166666667,
   "longitude": 4.7794166666666662,
@@ -8,7 +8,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 2,
-  "Name": "Liefdeszuster*",
+  "Name": "Liefdeszuster",
   "Desc": "",
   "latitude": 51.59327833333333,
   "longitude": 4.7793883333333333,
@@ -16,7 +16,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 3,
-  "Name": "Nassau Baronie Monument*",
+  "Name": "Nassau Baronie Monument",
   "Desc": "",
   "latitude": 51.5925,
   "longitude": 4.779695,
@@ -24,7 +24,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 4,
-  "Name": "Pad ten westen van monument*",
+  "Name": "Pad ten westen van monument",
   "Desc": "",
   "latitude": 51.5925,
   "longitude": 4.7793883333333333,
@@ -32,7 +32,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 5,
-  "Name": "The Light House*",
+  "Name": "The Light House",
   "Desc": "",
   "latitude": 51.592833333333331,
   "longitude": 4.7784716666666665,
@@ -40,7 +40,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 6,
-  "Name": "Tussenstop*",
+  "Name": "Tussenstop",
   "Desc": "",
   "latitude": 51.592666666666666,
   "longitude": 4.7779166666666661,
@@ -48,7 +48,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 7,
-  "Name": "Einde park*",
+  "Name": "Einde park",
   "Desc": "",
   "latitude": 51.590611666666668,
   "longitude": 4.777,
@@ -56,7 +56,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 8,
-  "Name": "Kasteel van Breda\tKasteelplein*",
+  "Name": "Kasteel van Breda\tKasteelplein",
   "Desc": "",
   "latitude": 51.590611666666668,
   "longitude": 4.7761666666666667,
@@ -64,7 +64,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 9,
-  "Name": "Stadhouderspoort*",
+  "Name": "Stadhouderspoort",
   "Desc": "",
   "latitude": 51.589695,
   "longitude": 4.7761383333333338,
@@ -72,7 +72,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 10,
-  "Name": "Kruising Kasteelplein/Cingelstraat*",
+  "Name": "Kruising Kasteelplein/Cingelstraat",
   "Desc": "",
   "latitude": 51.590333333333334,
   "longitude": 4.776,
@@ -80,7 +80,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 11,
-  "Name": "Bocht Cingelstraat*",
+  "Name": "Bocht Cingelstraat",
   "Desc": "",
   "latitude": 51.590388333333337,
   "longitude": 4.775,
@@ -88,7 +88,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 12,
-  "Name": "Huis van Brecht (rechter zijde)*",
+  "Name": "Huis van Brecht (rechter zijde)",
   "Desc": "",
   "latitude": 51.590028333333336,
   "longitude": 4.7743616666666666,
@@ -96,7 +96,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 13,
-  "Name": "Spanjaardsgat (rechter zijde)*",
+  "Name": "Spanjaardsgat (rechter zijde)",
   "Desc": "",
   "latitude": 51.590195,
   "longitude": 4.773445,
@@ -104,7 +104,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 14,
-  "Name": "Begin Vismarkt*",
+  "Name": "Begin Vismarkt",
   "Desc": "",
   "latitude": 51.589833333333331,
   "longitude": 4.7733333333333334,
@@ -112,7 +112,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 15,
-  "Name": "Begin Havermarkt*",
+  "Name": "Begin Havermarkt",
   "Desc": "",
   "latitude": 51.589361666666669,
   "longitude": 4.774445,
@@ -120,7 +120,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 16,
-  "Name": "Kruising Torenstraat/Kerkplein*",
+  "Name": "Kruising Torenstraat/Kerkplein",
   "Desc": "",
   "latitude": 51.58877833333333,
   "longitude": 4.7748883333333332,
@@ -128,7 +128,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 17,
-  "Name": "Grote Kerk*",
+  "Name": "Grote Kerk",
   "Desc": "",
   "latitude": 51.588833333333334,
   "longitude": 4.7752783333333335,
@@ -136,7 +136,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 18,
-  "Name": "Kruising Torenstraat/Kerkplein*",
+  "Name": "Kruising Torenstraat/Kerkplein",
   "Desc": "",
   "latitude": 51.58877833333333,
   "longitude": 4.7748883333333332,
@@ -144,7 +144,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 19,
-  "Name": "Het Poortje*",
+  "Name": "Het Poortje",
   "Desc": "",
   "latitude": 51.588195,
   "longitude": 4.7751383333333335,
@@ -152,7 +152,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 20,
-  "Name": "Ridderstraat*",
+  "Name": "Ridderstraat",
   "Desc": "",
   "latitude": 51.587083333333332,
   "longitude": 4.77575,
@@ -160,7 +160,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 21,
-  "Name": "Grote Markt\tZuidpunt Grote Markt*",
+  "Name": "Grote Markt\tZuidpunt Grote Markt",
   "Desc": "",
   "latitude": 51.58741666666667,
   "longitude": 4.776555,
@@ -168,7 +168,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 22,
-  "Name": "Bevrijdingsmonument*",
+  "Name": "Bevrijdingsmonument",
   "Desc": "",
   "latitude": 51.588028333333334,
   "longitude": 4.7763333333333335,
@@ -176,7 +176,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 23,
-  "Name": "Stadhuis\tVVV beginpunt vanaf 2020*",
+  "Name": "Stadhuis\tVVV beginpunt vanaf 2020",
   "Desc": "",
   "latitude": 51.58875,
   "longitude": 4.776111666666667,
@@ -184,7 +184,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 24,
-  "Name": "Terug naar begin Grote Markt*",
+  "Name": "Terug naar begin Grote Markt",
   "Desc": "",
   "latitude": 51.587971666666668,
   "longitude": 4.7763616666666664,
@@ -192,7 +192,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 25,
-  "Name": "Zuidpunt Grote Markt*",
+  "Name": "Zuidpunt Grote Markt",
   "Desc": "",
   "latitude": 51.5875,
   "longitude": 4.776555,
@@ -200,7 +200,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 26,
-  "Name": "Antonius van Paduakerk\tSt Janstraat*",
+  "Name": "Antonius van Paduakerk\tSt Janstraat",
   "Desc": "",
   "latitude": 51.587638333333331,
   "longitude": 4.77725,
@@ -208,7 +208,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 27,
-  "Name": "Kruising St.Janstraat/Molenstraat*",
+  "Name": "Kruising St.Janstraat/Molenstraat",
   "Desc": "",
   "latitude": 51.588278333333335,
   "longitude": 4.7785,
@@ -216,7 +216,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 28,
-  "Name": "Bibliotheek-nieuwe Veste*",
+  "Name": "Bibliotheek-nieuwe Veste",
   "Desc": "",
   "latitude": 51.588,
   "longitude": 4.778945,
@@ -224,7 +224,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 29,
-  "Name": "Kruising Molenstraat/Kloosterplein*",
+  "Name": "Kruising Molenstraat/Kloosterplein",
   "Desc": "",
   "latitude": 51.587361666666666,
   "longitude": 4.7802216666666668,
@@ -232,7 +232,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 30,
-  "Name": "Kloosterkazerne\tHuidige Casino*",
+  "Name": "Kloosterkazerne\tHuidige Casino",
   "Desc": "",
   "latitude": 51.587721666666667,
   "longitude": 4.7810283333333334,
@@ -240,7 +240,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 31,
-  "Name": "Chasse theater*",
+  "Name": "Chasse theater",
   "Desc": "",
   "latitude": 51.58775,
   "longitude": 4.782,
@@ -248,7 +248,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 32,
-  "Name": "Kruising Kloosterplein/Vlaszak*",
+  "Name": "Kruising Kloosterplein/Vlaszak",
   "Desc": "",
   "latitude": 51.58775,
   "longitude": 4.78125,
@@ -256,7 +256,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 33,
-  "Name": "Binding van Isaac\tGrasveld Vlaszak*",
+  "Name": "Binding van Isaac\tGrasveld Vlaszak",
   "Desc": "",
   "latitude": 51.588611666666665,
   "longitude": 4.7808883333333334,
@@ -264,7 +264,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 34,
-  "Name": "Kruising Vlaszak/Boschstraat*",
+  "Name": "Kruising Vlaszak/Boschstraat",
   "Desc": "",
   "latitude": 51.5895,
   "longitude": 4.780445,
@@ -272,7 +272,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 35,
-  "Name": "Beyerd*",
+  "Name": "Beyerd",
   "Desc": "",
   "latitude": 51.589666666666666,
   "longitude": 4.781,
@@ -280,7 +280,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 36,
-  "Name": "Kruising Vlaszak/Boschstraat*",
+  "Name": "Kruising Vlaszak/Boschstraat",
   "Desc": "",
   "latitude": 51.5895,
   "longitude": 4.780445,
@@ -288,7 +288,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 37,
-  "Name": "Gasthuispoort*",
+  "Name": "Gasthuispoort",
   "Desc": "",
   "latitude": 51.589555,
   "longitude": 4.78,
@@ -296,7 +296,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 38,
-  "Name": "Ingang Veemarktstraat*",
+  "Name": "Ingang Veemarktstraat",
   "Desc": "",
   "latitude": 51.589416666666665,
   "longitude": 4.7798616666666671,
@@ -304,7 +304,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 39,
-  "Name": "1e bocht Veemarktstraat*",
+  "Name": "1e bocht Veemarktstraat",
   "Desc": "",
   "latitude": 51.589028333333331,
   "longitude": 4.779695,
@@ -312,7 +312,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 40,
-  "Name": "Kruising Veemarktstraat/St.Annastraat*",
+  "Name": "Kruising Veemarktstraat/St.Annastraat",
   "Desc": "",
   "latitude": 51.588555,
   "longitude": 4.7783333333333333,
@@ -320,7 +320,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 41,
-  "Name": "Willem Merkxtuin\tIngang Willem Merkxtuin*",
+  "Name": "Willem Merkxtuin\tIngang Willem Merkxtuin",
   "Desc": "",
   "latitude": 51.589111666666668,
   "longitude": 4.777945,
@@ -328,7 +328,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 42,
-  "Name": "Kruising St.Annastraat/Catharinastraat*",
+  "Name": "Kruising St.Annastraat/Catharinastraat",
   "Desc": "",
   "latitude": 51.589666666666666,
   "longitude": 4.777805,
@@ -336,7 +336,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 43,
-  "Name": "Begijnenhof\tIngang Begijnenhof*",
+  "Name": "Begijnenhof\tIngang Begijnenhof",
   "Desc": "",
   "latitude": 51.589695,
   "longitude": 4.7783616666666671,
@@ -344,7 +344,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 44,
-  "Name": "Kruising St.Annastraat/Catharinastraat*",
+  "Name": "Kruising St.Annastraat/Catharinastraat",
   "Desc": "",
   "latitude": 51.589666666666666,
   "longitude": 4.777805,
@@ -352,7 +352,7 @@
   "Photos": [0, 0, 0]
 }, {
   "ID": 45,
-  "Name": "Einde stadswandeling\tEindpunt tot maart 2019+",
+  "Name": "Einde stadswandeling\tEindpunt tot maart 2019",
   "Desc": "",
   "latitude": 51.5895,
   "longitude": 4.77625,
