@@ -58,7 +58,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Reads json data and insert this into database
         new JsonHandler(this);
-
+        
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
         ImageButton buttonHelp = findViewById(R.id.buttonHelp);

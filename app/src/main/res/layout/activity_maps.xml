@@ -70,7 +70,6 @@
         app:layout_constraintGuide_percent="0.08" />
 
     <ImageView
-        tools:ignore="ContentDescription"
         android:id="@+id/imageViewMapHeader"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -78,7 +77,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimaryDark" />
+        app:srcCompat="@color/colorPrimaryDark"
+        tools:ignore="ContentDescription" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12"
