@@ -2,16 +2,35 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/normalButtonStyle</item>
+        <item name="android:buttonStyle">@style/normalButtonStyle</item>
+        <item name="imageButtonStyle">@style/normalImageButtonStyle</item>
+        <item name="android:imageButtonStyle">@style/normalImageButtonStyle</item>
     </style>
 
     <style name="ColourBlindTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#FFFFFF</item>
-        <item name="colorPrimaryDark">#FFFFFF</item>
-        <item name="colorAccent">#FFFFFF</item>
+        <item name="buttonStyle">@style/colourBlindButtonStyle</item>
+        <item name="android:buttonStyle">@style/colourBlindButtonStyle</item>
+        <item name="imageButtonStyle">@style/colourBlindImageButtonStyle</item>
+        <item name="android:imageButtonStyle">@style/colourBlindImageButtonStyle</item>
+    </style>
+
+    <style name="normalButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+    <style name="colourBlindButtonStyle" parent="@style/Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/colorAccentColourBlind</item>
+        <item name="android:background">@color/colorAccentColourBlind</item>
+    </style>
+
+    <style name="normalImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+    <style name="colourBlindImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@color/colorAccentColourBlind</item>
+        <item name="android:backgroundTint">@color/colorAccentColourBlind</item>
     </style>
 
 </resources>
