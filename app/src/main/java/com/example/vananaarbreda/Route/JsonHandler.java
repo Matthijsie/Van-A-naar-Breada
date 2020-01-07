@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class JsonHandler {
     private final String PATH = "ConvertedData.json";
@@ -51,9 +52,11 @@ public class JsonHandler {
             String[] photos = new String[photoLinks.length()];
 
             for (int j = 0; j < photoLinks.length(); j++) {
-                photos[j] = photoLinks.getString(j);
+                photos[j] = "image_" + photoLinks.getString(j);
             }
-            Sight s = new Sight(id, name, desc, isVisited);
+
+
+            Sight s = new Sight(id, name, desc, isVisited, photos);
             Coordinate coord = new Coordinate(coords.latitude, coords.longitude, s);
             RouteDB.getInstance(this.context).insertValue(coord, s);
         }

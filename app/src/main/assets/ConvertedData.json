@@ -5,7 +5,7 @@
   "latitude": 51.59411166666667,
   "longitude": 4.7794166666666662,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [2, 0, 0]
 }, {
   "ID": 2,
   "Name": "Liefdeszuster",
@@ -13,7 +13,7 @@
   "latitude": 51.59327833333333,
   "longitude": 4.7793883333333333,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [3, 0, 0]
 }, {
   "ID": 3,
   "Name": "Nassau Baronie Monument",
@@ -21,7 +21,7 @@
   "latitude": 51.5925,
   "longitude": 4.779695,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [4, 0, 0]
 }, {
   "ID": 4,
   "Name": "Pad ten westen van monument",
@@ -37,7 +37,7 @@
   "latitude": 51.592833333333331,
   "longitude": 4.7784716666666665,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [5, 0, 0]
 }, {
   "ID": 6,
   "Name": "Tussenstop",
@@ -53,7 +53,7 @@
   "latitude": 51.590611666666668,
   "longitude": 4.777,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [13, 0, 0]
 }, {
   "ID": 8,
   "Name": "Kasteel van Breda\tKasteelplein",
@@ -61,7 +61,7 @@
   "latitude": 51.590611666666668,
   "longitude": 4.7761666666666667,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [9, 0, 0]
 }, {
   "ID": 9,
   "Name": "Stadhouderspoort",
@@ -69,7 +69,7 @@
   "latitude": 51.589695,
   "longitude": 4.7761383333333338,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [11, 0, 0]
 }, {
   "ID": 10,
   "Name": "Kruising Kasteelplein/Cingelstraat",
@@ -77,7 +77,7 @@
   "latitude": 51.590333333333334,
   "longitude": 4.776,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [10, 12, 0]
 }, {
   "ID": 11,
   "Name": "Bocht Cingelstraat",
@@ -85,7 +85,7 @@
   "latitude": 51.590388333333337,
   "longitude": 4.775,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [8, 0, 0]
 }, {
   "ID": 12,
   "Name": "Huis van Brecht (rechter zijde)",
@@ -93,7 +93,7 @@
   "latitude": 51.590028333333336,
   "longitude": 4.7743616666666666,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [7, 0, 0]
 }, {
   "ID": 13,
   "Name": "Spanjaardsgat (rechter zijde)",
@@ -101,7 +101,7 @@
   "latitude": 51.590195,
   "longitude": 4.773445,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [6, 14, 22, 21]
 }, {
   "ID": 14,
   "Name": "Begin Vismarkt",
@@ -109,7 +109,7 @@
   "latitude": 51.589833333333331,
   "longitude": 4.7733333333333334,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [20, 0, 0]
 }, {
   "ID": 15,
   "Name": "Begin Havermarkt",
@@ -117,7 +117,7 @@
   "latitude": 51.589361666666669,
   "longitude": 4.774445,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [19, 0, 0]
 }, {
   "ID": 16,
   "Name": "Kruising Torenstraat/Kerkplein",
@@ -133,7 +133,7 @@
   "latitude": 51.588833333333334,
   "longitude": 4.7752783333333335,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [10, 16, 0]
 }, {
   "ID": 18,
   "Name": "Kruising Torenstraat/Kerkplein",
@@ -141,7 +141,7 @@
   "latitude": 51.58877833333333,
   "longitude": 4.7748883333333332,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [17, 0, 0]
 }, {
   "ID": 19,
   "Name": "Het Poortje",
@@ -149,7 +149,7 @@
   "latitude": 51.588195,
   "longitude": 4.7751383333333335,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [15, 0, 0]
 }, {
   "ID": 20,
   "Name": "Ridderstraat",
@@ -165,7 +165,7 @@
   "latitude": 51.58741666666667,
   "longitude": 4.776555,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [17, 0, 0]
 }, {
   "ID": 22,
   "Name": "Bevrijdingsmonument",
@@ -173,7 +173,7 @@
   "latitude": 51.588028333333334,
   "longitude": 4.7763333333333335,
   "isVisited": false,
-  "Photos": [0, 0, 0]
+  "Photos": [24, 25, 0]
 }, {
   "ID": 23,
   "Name": "Stadhuis",

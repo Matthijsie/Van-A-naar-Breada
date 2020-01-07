@@ -2,6 +2,8 @@ package com.example.vananaarbreda.Route;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 public class Coordinate {
 
     private double longitude;
@@ -17,7 +19,7 @@ public class Coordinate {
     public Coordinate(LatLng coords, String name, String desc, int ID, boolean isVisited, String[] photos) {
         this.longitude = coords.longitude;
         this.latitude = coords.latitude;
-        this.sight = new Sight(ID, name, desc, isVisited);
+        this.sight = new Sight(ID, name, desc, isVisited, photos);
     }
 
     public Sight getSight(){
