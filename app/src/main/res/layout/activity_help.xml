@@ -72,6 +72,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline11"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
+        app:layout_constraintVertical_bias="0.73"
         tools:text="Language" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -81,14 +82,14 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <Switch
-        android:id="@+id/switchColourBlindMode"
+    <Button
+        android:id="@+id/buttonColourBLindMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/colourblind_switch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toTopOf="@+id/changeLanguage"
+        app:layout_constraintEnd_toStartOf="@+id/guideline11"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
