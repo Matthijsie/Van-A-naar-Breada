@@ -1,6 +1,7 @@
 package com.example.vananaarbreda.Route;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -16,6 +17,8 @@ public class JsonHandler {
     private final String PATH = "ConvertedData.json";
     private Context context;
 
+    private static final String TAG = JsonHandler.class.getSimpleName();
+
     public JsonHandler(Context context) {
         this.context = context;
 
@@ -23,7 +26,7 @@ public class JsonHandler {
         try {
             insertJsonIntoDatabase();
         } catch (JSONException e) {
-            e.getStackTrace();
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -33,6 +36,7 @@ public class JsonHandler {
      */
     private void insertJsonIntoDatabase() throws JSONException {
         JSONArray array = new JSONArray(loadJSONFromAsset());
+
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
@@ -83,6 +87,7 @@ public class JsonHandler {
             return null;
         }
 
+        Log.d(TAG, "Created JSON string: " + json);
         return json;
     }
 }

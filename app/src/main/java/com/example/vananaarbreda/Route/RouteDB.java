@@ -86,6 +86,7 @@ public class RouteDB extends SQLiteOpenHelper {
      * @param sight the sight to be added in the record
      */
     public void insertValue(Coordinate coord, Sight sight) {
+        Log.d(TAG, "insertValue() called");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
