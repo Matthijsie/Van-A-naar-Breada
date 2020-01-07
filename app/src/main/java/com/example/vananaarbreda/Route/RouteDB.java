@@ -84,20 +84,20 @@ public class RouteDB extends SQLiteOpenHelper {
         values.put(COL_DESCRIPTION, sight.getDescription());
         values.put(COL_LATITUDE, coord.getLatitude());
         values.put(COL_LONGITUDE, coord.getLongitude());
-        values.put(COL_PHOTOLINKS, "");
+        values.put(COL_PHOTOLINKS, convertArrayToString(sight.getStringImageNames()));
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
         db.insert(TABLE_NAME, null, values);
     }
 
     public void updateSight(Sight sight){
-        Log.d(TAG, "üpdateSightVisited() called");
+        Log.d(TAG, "updateSightVisited() called");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_ID, sight.getID());
         values.put(COL_NAME, sight.getName());
         values.put(COL_DESCRIPTION, sight.getDescription());
-        values.put(COL_PHOTOLINKS, "");
+        values.put(COL_PHOTOLINKS, convertArrayToString(sight.getStringImageNames()));
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
         String whereClause = COL_ID + "=" + sight.getID();
@@ -117,7 +117,20 @@ public class RouteDB extends SQLiteOpenHelper {
     }
 
     private String[] convertStringToArray(String s) {
-        return s.split("\n");
+        Log.d(TAG, "Converting String into array: " + s);
+        return s.split(",");
+    }
+
+    private String convertArrayToString(List<String> array) {
+        Log.d(TAG, "Converting Array into String: ");
+
+        StringBuilder sb = new StringBuilder("");
+
+        for (Object e : array) {
+            sb.append(e.toString()).append(",");
+        }
+        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     public ArrayList<Coordinate> readValues() {
