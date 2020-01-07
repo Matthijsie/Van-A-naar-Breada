@@ -63,7 +63,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             setTheme(R.style.AppTheme);
         } else if (themevalue == getResources().getInteger(R.integer.ColourBlindTheme)) {
             setTheme(R.style.ColourBlindTheme);
+        }else {
+            setTheme(R.style.AppTheme);
         }
+
         setContentView(R.layout.activity_maps);
 
         //Reads json data and insert this into database

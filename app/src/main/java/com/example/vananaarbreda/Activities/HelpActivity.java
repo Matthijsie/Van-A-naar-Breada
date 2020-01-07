@@ -30,6 +30,8 @@ public class HelpActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         } else if (themevalue == getResources().getInteger(R.integer.ColourBlindTheme)) {
             setTheme(R.style.ColourBlindTheme);
+        }else {
+            setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_help);
 
@@ -42,12 +44,12 @@ public class HelpActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 if (themevalue == getResources().getInteger(R.integer.MainTHeme)) {
-                    setTheme(R.style.AppTheme);
-                    editor.putInt(getString(R.string.stored_theme_key), getResources().getInteger(R.integer.MainTHeme));
-                    editor.apply();
-                } else {
                     setTheme(R.style.ColourBlindTheme);
                     editor.putInt(getString(R.string.stored_theme_key), getResources().getInteger(R.integer.ColourBlindTheme));
+                    editor.apply();
+                } else {
+                    setTheme(R.style.AppTheme);
+                    editor.putInt(getString(R.string.stored_theme_key), getResources().getInteger(R.integer.MainTHeme));
                     editor.apply();
                 }
 
