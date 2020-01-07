@@ -30,9 +30,6 @@ public class SightActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textViewSight);
         textView.setText(sight.getName());
 
-//        ImageView imageViewSight = findViewById(R.id.sightImage);
-//        imageViewSight.setImageBitmap(sight.getImages());
-
         LinearLayout ll = findViewById(R.id.linearLayout);
         for (int i = 0; i < sight.getStringImageNames().size(); i++) {
             if(!sight.getStringImageNames().get(i).equals("image_0")) {
@@ -42,7 +39,7 @@ public class SightActivity extends AppCompatActivity {
 
                 int resID = getResources().getIdentifier(sight.getStringImageNames().get(i), "drawable", getPackageName());
                 image.setImageResource(resID);
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 image.setAdjustViewBounds(true);
                 ll.addView(image);
             }

@@ -21,7 +21,7 @@ public class SightListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewSights);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SightListAdapter(RouteDB.getInstance(this).readValues());
+        adapter = new SightListAdapter(RouteDB.getInstance(this).readValues(), this);
         recyclerView.setAdapter(adapter);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.vananaarbreda.Activities;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,17 @@ import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.Coordinate;
 
 import java.util.List;
+import java.util.zip.CheckedOutputStream;
 
 public class SightListAdapter extends RecyclerView.Adapter<SightListAdapter.SightListViewHolder> {
 
     private static final String TAG = SightListAdapter.class.getSimpleName();
     private List<Coordinate> dataset;
+    private Context context;
 
-    public SightListAdapter(List<Coordinate> dataset){
+    public SightListAdapter(List<Coordinate> dataset, Context context){
         this.dataset = dataset;
+        this.context = context;
         Log.d(TAG, "SightListAdapter Created");
     }
 
@@ -38,7 +42,16 @@ public class SightListAdapter extends RecyclerView.Adapter<SightListAdapter.Sigh
         Coordinate coordinate = dataset.get(position);
 
         holder.textViewSight.setText(coordinate.getSight().getName());
-        //holder.imageViewSight.setImageBitmap(coordinate.getSight().getImages().get(0));
+        if (coordinate.getSight().getBitmapImages().size() > 0) {
+            ImageView image = holder.imageViewSight;
+            image.setId(0);
+            image.setPadding(50, 2, 50, 2);
+
+            int resID = context.getResources().getIdentifier(dataset.get(position).getSight().getStringImageNames().get(0), "drawable", context.getPackageName());
+            image.setImageResource(resID);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setAdjustViewBounds(true);
+        }
     }
 
     @Override
