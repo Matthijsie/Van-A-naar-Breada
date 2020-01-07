@@ -9,23 +9,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.vananaarbreda.R;
 
 public class HelpActivity extends AppCompatActivity {
     private static final String TAG = HelpActivity.class.getSimpleName();
-    private Button colourBlindButton;
-    private Activity activity = this;
     private int themevalue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stored_theme_key),Context.MODE_PRIVATE);
         themevalue = sharedPref.getInt(getString(R.string.stored_theme_key), getResources().getInteger(R.integer.MainTHeme));
-
         if (themevalue == getResources().getInteger(R.integer.MainTHeme)) {
             setTheme(R.style.AppTheme);
         } else if (themevalue == getResources().getInteger(R.integer.ColourBlindTheme)) {
@@ -35,7 +32,8 @@ public class HelpActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_help);
 
-        colourBlindButton = findViewById(R.id.buttonColourBLindMode);
+        //layour
+        Button colourBlindButton = findViewById(R.id.buttonColourBLindMode);
         colourBlindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +52,22 @@ public class HelpActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(v.getContext(), "Changes applied, restart application to see changes", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ImageButton imageButtonNL = findViewById(R.id.imageButtonNL);
+        imageButtonNL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ImageButton imageButtonUk = findViewById(R.id.imageButtonUK);
+        imageButtonUk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
     }
