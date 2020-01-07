@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -54,6 +56,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stored_theme_key), Context.MODE_PRIVATE);
+        int themevalue = sharedPref.getInt(getString(R.string.stored_theme_key), 0);
+
+        if (themevalue == getResources().getInteger(R.integer.MainTHeme)) {
+            setTheme(R.style.AppTheme);
+        } else if (themevalue == getResources().getInteger(R.integer.ColourBlindTheme)) {
+            setTheme(R.style.ColourBlindTheme);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_maps);
 
         //Reads json data and insert this into database
@@ -257,5 +270,4 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 }

@@ -54,8 +54,7 @@
         android:id="@+id/buttonRoutes"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent"
         android:text="@string/text_routes_button"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
@@ -68,9 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
+        app:layout_constraintGuide_percent="0.14" />
 
     <ImageView
+        tools:ignore="ContentDescription"
         android:id="@+id/imageViewMapHeader"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -101,18 +101,18 @@
         app:srcCompat="@android:drawable/ic_menu_info_details" />
 
     <ImageButton
+        tools:ignore="ContentDescription"
         android:id="@+id/imageButtonSightList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline11"
         app:layout_constraintVertical_bias="0.93"
-        app:srcCompat="@android:drawable/ic_menu_compass"
-        tools:ignore="ContentDescription" />
+        app:srcCompat="@android:drawable/ic_menu_compass" />
 
     <ImageView
         tools:ignore="ContentDescription"
