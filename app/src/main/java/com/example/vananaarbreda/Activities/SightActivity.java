@@ -11,6 +11,8 @@ import com.example.vananaarbreda.R;
 import com.example.vananaarbreda.Route.RouteDB;
 import com.example.vananaarbreda.Route.Sight;
 
+import java.util.Locale;
+
 public class SightActivity extends AppCompatActivity {
 
     private Sight sight;
@@ -29,7 +31,12 @@ public class SightActivity extends AppCompatActivity {
 //        imageViewSight.setImageBitmap(sight.getImages());
 
         TextView textDescription = findViewById(R.id.sightDescription);
-        textDescription.setText(sight.getDescription());
+        String currentLang = Locale.getDefault().getLanguage();
+        if (currentLang.equals("nl")) {
+            textDescription.setText(sight.getDescription());
+        }else {
+            textDescription.setText(sight.getDescriptionEN());
+        }
 
         Switch visited = findViewById(R.id.isSeen);
         visited.setChecked(sight.isVisited());

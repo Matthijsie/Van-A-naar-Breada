@@ -30,6 +30,7 @@ public class RouteDB extends SQLiteOpenHelper {
     private static final String COL_ID = "ID";
     private static final String COL_NAME = "name";
     private static final String COL_DESCRIPTION = "description";
+    private static final String COL_DESCRIPTION_EN = "descriptionEn";
     private static final String COL_LATITUDE = "latitude";
     private static final String COL_LONGITUDE = "longitude";
     private static final String COL_PHOTOLINKS = "photolinks";
@@ -40,6 +41,7 @@ public class RouteDB extends SQLiteOpenHelper {
                     COL_ID + " INTEGER PRIMARY KEY," +
                     COL_NAME + " TEXT," +
                     COL_DESCRIPTION + " TEXT," +
+                    COL_DESCRIPTION_EN + " TEXT," +
                     COL_LATITUDE + " REAL," +
                     COL_LONGITUDE + " REAL, " +
                     COL_ISVISITED + " TEXT, " +
@@ -70,7 +72,7 @@ public class RouteDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
-        Log.i(TAG, "onCreate() called, creating table");
+        Log.i(TAG, "onCreate() called, creating table using querry: " + CREATE_TABLE);
     }
 
     @Override
@@ -93,6 +95,7 @@ public class RouteDB extends SQLiteOpenHelper {
         values.put(COL_ID, sight.getID());
         values.put(COL_NAME, sight.getName());
         values.put(COL_DESCRIPTION, sight.getDescription());
+        values.put(COL_DESCRIPTION_EN, sight.getDescriptionEN());
         values.put(COL_LATITUDE, coord.getLatitude());
         values.put(COL_LONGITUDE, coord.getLongitude());
         values.put(COL_PHOTOLINKS, "");
@@ -112,6 +115,7 @@ public class RouteDB extends SQLiteOpenHelper {
         values.put(COL_ID, sight.getID());
         values.put(COL_NAME, sight.getName());
         values.put(COL_DESCRIPTION, sight.getDescription());
+        values.put(COL_DESCRIPTION_EN, sight.getDescriptionEN());
         values.put(COL_PHOTOLINKS, "");
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
@@ -155,14 +159,15 @@ public class RouteDB extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int ID = cursor.getInt(cursor.getColumnIndex(               COL_ID));
-                String name = cursor.getString(cursor.getColumnIndex(       COL_NAME));
-                String description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION));
-                double latitude = cursor.getDouble(cursor.getColumnIndex(   COL_LATITUDE));
-                double longitude = cursor.getDouble(cursor.getColumnIndex(  COL_LONGITUDE));
-                boolean isVisited = cursor.getString(cursor.getColumnIndex( COL_ISVISITED)).equals("1");
-                String photoLinks = cursor.getString(cursor.getColumnIndex( COL_PHOTOLINKS));
-                coordinates.add(new Coordinate(new LatLng(latitude, longitude), name, description, ID, isVisited, convertStringToArray(photoLinks)));
+                int ID = cursor.getInt(cursor.getColumnIndex(                   COL_ID));
+                String name = cursor.getString(cursor.getColumnIndex(           COL_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(    COL_DESCRIPTION));
+                String descriptionEN = cursor.getString(cursor.getColumnIndex(  COL_DESCRIPTION_EN));
+                double latitude = cursor.getDouble(cursor.getColumnIndex(       COL_LATITUDE));
+                double longitude = cursor.getDouble(cursor.getColumnIndex(      COL_LONGITUDE));
+                boolean isVisited = cursor.getString(cursor.getColumnIndex(     COL_ISVISITED)).equals("1");
+                String photoLinks = cursor.getString(cursor.getColumnIndex(     COL_PHOTOLINKS));
+                coordinates.add(new Coordinate(new LatLng(latitude, longitude), name, description, descriptionEN, ID, isVisited, convertStringToArray(photoLinks)));
             } while (cursor.moveToNext());
         }
 

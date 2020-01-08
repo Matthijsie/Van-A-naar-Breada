@@ -10,6 +10,7 @@ public class Sight implements Serializable {
     private int ID;
     private String name;
     private String description;
+    private String descriptionEN;
     private String information;
     private ArrayList<Bitmap> images;
     private boolean isVisited;
@@ -20,12 +21,13 @@ public class Sight implements Serializable {
         this.isVisited = false;
     }
 
-    public Sight(int ID, String name, String description, boolean isVisited) {
+    public Sight(int ID, String name, String description, String descriptionEN,boolean isVisited) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         //this.images = images;
         this.isVisited = isVisited;
+        this.descriptionEN = descriptionEN;
     }
 
     public int getID() {
@@ -74,5 +76,13 @@ public class Sight implements Serializable {
 
     public void setVisited(boolean visited) {
         isVisited = visited;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
+
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
     }
 }
