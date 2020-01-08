@@ -69,6 +69,11 @@ public class HelpActivity extends AppCompatActivity {
                 configNL.locale = localeNL;
                 v.getContext().getResources().updateConfiguration(configNL, v.getContext().getResources().getDisplayMetrics());
                 languageUpdate();
+
+                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stores_language_key),Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt(getString(R.string.stores_language_key), getResources().getInteger(R.integer.LanguageNL));
+                editor.apply();
             }
         });
 
@@ -82,6 +87,11 @@ public class HelpActivity extends AppCompatActivity {
                 configEN.locale = localeEN;
                 v.getContext().getResources().updateConfiguration(configEN, v.getContext().getResources().getDisplayMetrics());
                 languageUpdate();
+
+                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stores_language_key),Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt(getString(R.string.stores_language_key), getResources().getInteger(R.integer.LanguageDefault));
+                editor.apply();
             }
         });
     }

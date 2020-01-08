@@ -2,6 +2,8 @@ package com.example.vananaarbreda.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -31,8 +33,10 @@ public class SightActivity extends AppCompatActivity {
 //        imageViewSight.setImageBitmap(sight.getImages());
 
         TextView textDescription = findViewById(R.id.sightDescription);
-        String currentLang = Locale.getDefault().getLanguage();
-        if (currentLang.equals("nl")) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stores_language_key), Context.MODE_PRIVATE);
+
+        int languageValue = sharedPref.getInt(getString(R.string.stores_language_key), 0);
+        if (languageValue == 1) {
             textDescription.setText(sight.getDescription());
         }else {
             textDescription.setText(sight.getDescriptionEN());

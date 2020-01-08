@@ -10,4 +10,5 @@
     <string name="text_routes_button">Routes</string>
     <string name="colourblind_switch">Kleurenblind modus</string>
     <string name="stored_theme_key">ThemeValueANaarBreda</string>
+    <string name="stores_language_key">LanguageValueAnaarBreda</string>
 </resources>
