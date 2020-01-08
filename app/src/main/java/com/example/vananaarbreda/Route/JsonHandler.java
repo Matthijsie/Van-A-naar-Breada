@@ -45,6 +45,7 @@ public class JsonHandler {
             int id = jsonObject.getInt("ID");
             String name = jsonObject.getString("Name");
             String desc = jsonObject.getString("Desc");
+            String descEN = jsonObject.getString("DescEN");
             LatLng coords = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
             boolean isVisited = jsonObject.getBoolean("isVisited");
             JSONArray photoLinks = jsonObject.getJSONArray("Photos");
@@ -54,9 +55,7 @@ public class JsonHandler {
             for (int j = 0; j < photoLinks.length(); j++) {
                 photos[j] = "image_" + photoLinks.getString(j);
             }
-
-
-            Sight s = new Sight(id, name, desc, isVisited, photos);
+            Sight s = new Sight(id, name, desc, descEN, isVisited, photos);
             Coordinate coord = new Coordinate(coords.latitude, coords.longitude, s);
             RouteDB.getInstance(this.context).insertValue(coord, s);
         }
