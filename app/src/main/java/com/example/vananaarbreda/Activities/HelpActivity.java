@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +15,12 @@ import android.widget.Toast;
 
 import com.example.vananaarbreda.R;
 
+import java.util.Locale;
+
 public class HelpActivity extends AppCompatActivity {
     private static final String TAG = HelpActivity.class.getSimpleName();
     private int themevalue;
+    private Button colourBlindButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         //layour
-        Button colourBlindButton = findViewById(R.id.buttonColourBLindMode);
+        colourBlindButton = findViewById(R.id.buttonColourBLindMode);
         colourBlindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +63,12 @@ public class HelpActivity extends AppCompatActivity {
         imageButtonNL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Locale localeNL = new Locale("nl");
+                Locale.setDefault(localeNL);
+                Configuration configNL = new Configuration();
+                configNL.locale = localeNL;
+                v.getContext().getResources().updateConfiguration(configNL, v.getContext().getResources().getDisplayMetrics());
+                languageUpdate();
             }
         });
 
@@ -67,8 +76,17 @@ public class HelpActivity extends AppCompatActivity {
         imageButtonUk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Locale localeEN = new Locale("en");
+                Locale.setDefault(localeEN);
+                Configuration configEN = new Configuration();
+                configEN.locale = localeEN;
+                v.getContext().getResources().updateConfiguration(configEN, v.getContext().getResources().getDisplayMetrics());
+                languageUpdate();
             }
         });
+    }
+
+    private void languageUpdate(){
+        colourBlindButton.setText(R.string.colourblind_switch);
     }
 }
