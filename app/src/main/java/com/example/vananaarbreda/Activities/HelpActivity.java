@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vananaarbreda.R;
@@ -21,6 +22,7 @@ public class HelpActivity extends AppCompatActivity {
     private static final String TAG = HelpActivity.class.getSimpleName();
     private int themevalue;
     private Button colourBlindButton;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +96,12 @@ public class HelpActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
+
+        textView = findViewById(R.id.helpExplanation);
     }
 
     private void languageUpdate(){
         colourBlindButton.setText(R.string.colourblind_switch);
+        textView.setText(R.string.help_explanation);
     }
 }
