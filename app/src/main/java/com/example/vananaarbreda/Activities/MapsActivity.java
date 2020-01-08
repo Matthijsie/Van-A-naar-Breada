@@ -4,16 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -30,6 +35,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +56,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.stored_theme_key), Context.MODE_PRIVATE);
+        int themevalue = sharedPref.getInt(getString(R.string.stored_theme_key), 0);
+
+        if (themevalue == getResources().getInteger(R.integer.MainTHeme)) {
+            setTheme(R.style.AppTheme);
+        } else if (themevalue == getResources().getInteger(R.integer.ColourBlindTheme)) {
+            setTheme(R.style.ColourBlindTheme);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_maps);
 
         //Reads json data and insert this into database
@@ -56,7 +74,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //setting layout
         this.textViewConnectionStatus = findViewById(R.id.textViewConnectionStatus);
-        Button buttonHelp = findViewById(R.id.buttonHelp);
+        ImageButton buttonHelp = findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,10 +97,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        ImageButton sightListButton = findViewById(R.id.imageButtonSightList);
+        sightListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Sights button pressed");
+                Intent intent = new Intent(v.getContext(), SightListActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+
         getLocationPermission();
     }
 
-    //Creates a popup window with a listview
+    /**
+     * Creates a PopupWindow with a ListView
+     * @return the PopupWindow to be shown in the UI
+     */
     public PopupWindow popupWindowRoutes() {
         Log.d(TAG, "popupWindowRoutes() called");
 
@@ -147,6 +178,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.mMap.setMyLocationEnabled(true);
         this.mMap.setMinZoomPreference(14);
 
+        LatLngBounds BREDA = new LatLngBounds(new LatLng(51.59099, 4.8600000), new LatLng(51.59100, 4.8599999));
+        this.mMap.setLatLngBoundsForCameraTarget(BREDA);
+
         UiSettings settings = this.mMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
         settings.setMyLocationButtonEnabled(true);
@@ -160,14 +194,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.textViewConnectionStatus.setText("");
     }
 
-    //Sends a message to the mapHandler to display the currently selected route on the map
+    /**
+     * Sends a message to the mapHandler to display the currently selected route on the
+     * @param route the route that the MapHandler needs to use
+     */
     private void buildRoute(Route route){
+        Log.d(TAG, "buildRoute() called");
         MapHandler.getInstance(this).setRoute(route);
         MapHandler.getInstance(this).buildWaypoints();
         MapHandler.getInstance(this).buildRoute();
     }
 
-    //Gets called when the user has given input in the request permission popup
+    /**
+     * Gets called when the user has given input in the request permission popup
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionResult() called");
@@ -188,7 +228,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    //Initializes the check for location permission by user
+    /**
+     *  Initializes the check for location permission by user
+     */
     private void getLocationPermission(){
         Log.d(TAG, "getLocationPermission() called");
 
@@ -205,7 +247,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    //Checks if given permission was given previously
+    /**
+     * Used to check if the application already has a given permission
+     * @param permission The permission to check
+     * @return Whether or not the app has this permission already
+     */
     private boolean checkIfAlreadyHavePermission(String permission) {
         int result = ContextCompat.checkSelfPermission(this, permission);
         boolean hasPermission = result == PackageManager.PERMISSION_GRANTED;
@@ -215,7 +261,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return hasPermission;
     }
 
-    //Gets called when the user has given permission
+    /**
+     * Gets called when the user has given permission
+     */
     private void onLocationPermission(){
         Log.d(TAG, "onLocaionPermission() called");
         this.textViewConnectionStatus.setText(R.string.loading_map);

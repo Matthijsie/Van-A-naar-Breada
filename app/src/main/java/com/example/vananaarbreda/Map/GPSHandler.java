@@ -2,6 +2,7 @@ package com.example.vananaarbreda.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
@@ -65,16 +66,25 @@ public class GPSHandler {
             @Override
             public void onLocationResult(LocationResult locationResult) {
 
-                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
 
                 //return of location has an error
                 if (locationResult == null){
                     return;
                 }
 
+                Log.i(TAG, "Got location update: " + "(" + locationResult.getLastLocation().getLatitude() + " , " + locationResult.getLastLocation().getLongitude() + ")");
+
                 //handle location
                 for (Location location : locationResult.getLocations()){
                     if (location != null){
+
+                        //uses both most recent and previous location to create a line segment
+                        if (lastKnownLocation != null) {
+                            List<LatLng> locations = new ArrayList<>();
+                            locations.add(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+                            locations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                            mapHandler.setRoute(locations, Color.RED);
+                        }
                         lastKnownLocation = location;
 
                         //Loops through all waypoints to see if one is within the given radius and sends user a notification
@@ -84,7 +94,7 @@ public class GPSHandler {
                             otherLocation.setLongitude(coordinate.getLongitude());
 
                             if (lastKnownLocation.distanceTo(otherLocation) <= MAXIMUM_WAYPOINT_RADIUS){
-                                Log.d(TAG, "User is withing " + MAXIMUM_WAYPOINT_RADIUS + " metres of a waypoint");
+                                Log.d(TAG, "User is within " + MAXIMUM_WAYPOINT_RADIUS + " meters of a waypoint");
 
                                 //Start new intent if the user hasn't selected this waypoint as already seen
                                 if (!coordinate.getSight().isVisited() && !coordinate.equals(previousCoordinate)) {
@@ -103,7 +113,10 @@ public class GPSHandler {
         Log.d(TAG, "LocationCallback defined");
     }
 
-    //Makes a volleyrequest to the google direction api
+    /**
+     * Tranlates a route object into a list of points and sends this to the direction API
+     * @param route The route object which needs to be translated into a list of points to go through
+     */
     public void requestRoute(Route route) {
         Log.d(TAG, "requestRoute() called");
         List<Coordinate> coordinates = new ArrayList<>();
@@ -116,9 +129,14 @@ public class GPSHandler {
                 coordinates.clear();
             }
         }
+        //coordinates.add(coordinates.get(0));
         doRequest(coordinates);
     }
 
+    /**
+     * Makes a volley request and sends this to the direction API
+     * @param coordinates The list of coordinates which the route needs to go through
+     */
     private void doRequest (List<Coordinate> coordinates) {
         Log.d(TAG, "doRequest() called");
         Coordinate firstCoordinate = coordinates.get(0);
@@ -172,7 +190,7 @@ public class GPSHandler {
                         }
                     }
 
-                    MapHandler.getInstance(context).setRoute(latLngs);
+                    MapHandler.getInstance(context).setRoute(latLngs, Color.BLACK);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, e.toString());
@@ -189,6 +207,11 @@ public class GPSHandler {
         requestQueue.add(request);
     }
 
+    /**
+     * Returns the GPSHandler object instance or makes one if not available
+     * @param context used for initialization on first call
+     * @return The GPSHandler object instance
+     */
     public static GPSHandler getInstance(Context context){
         Log.d(TAG, "getInstance() called");
         if (instance == null){
@@ -199,26 +222,48 @@ public class GPSHandler {
         return instance;
     }
 
+    /**
+     * Sets the maphandler which the GPSHandler needs to communicate to to change the map
+     * @param handler the maphandler to be selected
+     */
     public void setMapHandler(final MapHandler handler){
         Log.d(TAG, "setMapHandler() Called");
         this.mapHandler = handler;
     }
 
+    /**
+     * Returns the last known user location
+     * @return The last location that was found by the GPSHandler
+     */
     public Location getLastKnownLocation(){
         Log.d(TAG, "getlastKnownLocation() called");
         return this.lastKnownLocation;
     }
 
+    /**
+     * Starts the GPSHandler with updating the user's location
+     */
     public void startLocationUpdating() {
         Log.d(TAG, "startLocationUpdating() called");
         this.fusedLocationProviderClient.requestLocationUpdates(this.locationRequest, this.locationCallback, Looper.getMainLooper());
     }
 
+    /**
+     * Stops updating the user's location
+     */
     public void stopLocationUpdating(){
         Log.d(TAG, "stopLocationUpdating() called");
         this.fusedLocationProviderClient.removeLocationUpdates(this.locationCallback);
     }
 
+    /**
+     * Builds the URL used to communicate with the directions API
+     * @param origin The first point of the route
+     * @param dest The last point of the route
+     * @param directionMode What vehicle/routes the user will take
+     * @param waypoints Any waypoints the directions api should go through
+     * @return A URL containing all information given in the parameters
+     */
     private String buildUrl(LatLng origin, LatLng dest, String directionMode, List<Coordinate> waypoints) {
         Log.d(TAG, "buildUrl() called");
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;

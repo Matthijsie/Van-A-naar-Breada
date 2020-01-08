@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ColourBlindTheme">1</integer>
+    <integer name="MainTHeme">0</integer>
+    <integer name="LanguageDefault">0</integer>
+    <integer name="LanguageNL">1</integer>
+</resources>

@@ -3,29 +3,38 @@ package com.example.vananaarbreda.Route;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Sight implements Serializable {
 
     private int ID;
     private String name;
     private String description;
+    private String descriptionEN;
     private String information;
-    private ArrayList<Bitmap> images;
+    private ArrayList<Bitmap> bitmapImages;
+    private List<String> stringImageNames;
     private boolean isVisited;
 
     public Sight(String name, String description){
         this.name = name;
         this.description = description;
         this.isVisited = false;
+        this.bitmapImages = new ArrayList<>();
+        this.stringImageNames = new ArrayList<>();
     }
 
-    public Sight(int ID, String name, String description, boolean isVisited) {
+    public Sight(int ID, String name, String description, String descriptionEN, boolean isVisited, String[] photos) {
         this.ID = ID;
         this.name = name;
         this.description = description;
-        //this.images = images;
         this.isVisited = isVisited;
+        this.descriptionEN = descriptionEN;
+        this.stringImageNames = Arrays.asList(photos);
+        this.bitmapImages = new ArrayList<>();
     }
 
     public int getID() {
@@ -60,12 +69,20 @@ public class Sight implements Serializable {
         this.information = information;
     }
 
-    public ArrayList<Bitmap> getImages() {
-        return images;
+    public ArrayList<Bitmap> getBitmapImages() {
+        return bitmapImages;
     }
 
-    public void setImages(ArrayList<Bitmap> images) {
-        this.images = images;
+    public void setBitmapImages(ArrayList<Bitmap> bitmapImages) {
+        this.bitmapImages = bitmapImages;
+    }
+
+    public List<String> getStringImageNames() {
+        return stringImageNames;
+    }
+
+    public void setStringImageNames(ArrayList<String> stringImageNames) {
+        this.stringImageNames = stringImageNames;
     }
 
     public boolean isVisited() {
@@ -74,5 +91,13 @@ public class Sight implements Serializable {
 
     public void setVisited(boolean visited) {
         isVisited = visited;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
+
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
     }
 }

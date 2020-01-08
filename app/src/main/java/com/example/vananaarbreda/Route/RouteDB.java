@@ -30,6 +30,7 @@ public class RouteDB extends SQLiteOpenHelper {
     private static final String COL_ID = "ID";
     private static final String COL_NAME = "name";
     private static final String COL_DESCRIPTION = "description";
+    private static final String COL_DESCRIPTION_EN = "descriptionEn";
     private static final String COL_LATITUDE = "latitude";
     private static final String COL_LONGITUDE = "longitude";
     private static final String COL_PHOTOLINKS = "photolinks";
@@ -40,6 +41,7 @@ public class RouteDB extends SQLiteOpenHelper {
                     COL_ID + " INTEGER PRIMARY KEY," +
                     COL_NAME + " TEXT," +
                     COL_DESCRIPTION + " TEXT," +
+                    COL_DESCRIPTION_EN + " TEXT," +
                     COL_LATITUDE + " REAL," +
                     COL_LONGITUDE + " REAL, " +
                     COL_ISVISITED + " TEXT, " +
@@ -49,6 +51,11 @@ public class RouteDB extends SQLiteOpenHelper {
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
+    /**
+     * Gives the RouteDB instance object and creates one if there isnt one available
+     * @param context Used to set attributes on first initialization
+     * @return The RouteDB instance object
+     */
     public static RouteDB getInstance(Context context){
         if (instance == null){
             instance = new RouteDB(context);
@@ -65,7 +72,7 @@ public class RouteDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
-        Log.i(TAG, "onCreate() called, creating table");
+        Log.i(TAG, "onCreate() called, creating table using querry: " + CREATE_TABLE);
     }
 
     @Override
@@ -75,29 +82,41 @@ public class RouteDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Inserts new values into the database
+     * @param coord the coordinate to be added in the record
+     * @param sight the sight to be added in the record
+     */
     public void insertValue(Coordinate coord, Sight sight) {
+        Log.d(TAG, "insertValue() called");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(COL_ID, sight.getID());
         values.put(COL_NAME, sight.getName());
         values.put(COL_DESCRIPTION, sight.getDescription());
+        values.put(COL_DESCRIPTION_EN, sight.getDescriptionEN());
         values.put(COL_LATITUDE, coord.getLatitude());
         values.put(COL_LONGITUDE, coord.getLongitude());
-        values.put(COL_PHOTOLINKS, "");
+        values.put(COL_PHOTOLINKS, convertArrayToString(sight.getStringImageNames()));
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
         db.insert(TABLE_NAME, null, values);
     }
 
+    /**
+     * Updates the information from a given sight
+     * @param sight the sight to be updated
+     */
     public void updateSight(Sight sight){
-        Log.d(TAG, "üpdateSightVisited() called");
+        Log.d(TAG, "updateSightVisited() called");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_ID, sight.getID());
         values.put(COL_NAME, sight.getName());
         values.put(COL_DESCRIPTION, sight.getDescription());
-        values.put(COL_PHOTOLINKS, "");
+        values.put(COL_DESCRIPTION_EN, sight.getDescriptionEN());
+        values.put(COL_PHOTOLINKS, convertArrayToString(sight.getStringImageNames()));
         values.put(COL_ISVISITED, sight.isVisited() ? 1 : 0);
 
         String whereClause = COL_ID + "=" + sight.getID();
@@ -110,16 +129,41 @@ public class RouteDB extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Drops the current table and creates a new empty one
+     */
     public void resetTable() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(DROP_TABLE);
         db.execSQL(CREATE_TABLE);
     }
 
+    /**
+     *
+     * @param s the string to be changed into a string array
+     * @return the String array
+     */
     private String[] convertStringToArray(String s) {
-        return s.split("\n");
+        Log.d(TAG, "Converting String into array: " + s);
+        return s.split(",");
     }
 
+    private String convertArrayToString(List<String> array) {
+        Log.d(TAG, "Converting Array into String: ");
+
+        StringBuilder sb = new StringBuilder("");
+
+        for (Object e : array) {
+            sb.append(e.toString()).append(",");
+        }
+        System.out.println(sb.toString());
+        return sb.toString();
+    }
+
+    /**
+     * Requests all current records in the database
+     * @return a list of all Coordinates currently stored in the database
+     */
     public ArrayList<Coordinate> readValues() {
         String query = "SELECT * FROM " + TABLE_NAME + ";";
         SQLiteDatabase db = getReadableDatabase();
@@ -128,14 +172,15 @@ public class RouteDB extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                int ID = cursor.getInt(cursor.getColumnIndex(               COL_ID));
-                String name = cursor.getString(cursor.getColumnIndex(       COL_NAME));
-                String description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION));
-                double latitude = cursor.getDouble(cursor.getColumnIndex(   COL_LATITUDE));
-                double longitude = cursor.getDouble(cursor.getColumnIndex(  COL_LONGITUDE));
-                boolean isVisited = cursor.getString(cursor.getColumnIndex( COL_ISVISITED)).equals("1");
-                String photoLinks = cursor.getString(cursor.getColumnIndex( COL_PHOTOLINKS));
-                coordinates.add(new Coordinate(new LatLng(latitude, longitude), name, description, ID, isVisited, convertStringToArray(photoLinks)));
+                int ID = cursor.getInt(cursor.getColumnIndex(                   COL_ID));
+                String name = cursor.getString(cursor.getColumnIndex(           COL_NAME));
+                String description = cursor.getString(cursor.getColumnIndex(    COL_DESCRIPTION));
+                String descriptionEN = cursor.getString(cursor.getColumnIndex(  COL_DESCRIPTION_EN));
+                double latitude = cursor.getDouble(cursor.getColumnIndex(       COL_LATITUDE));
+                double longitude = cursor.getDouble(cursor.getColumnIndex(      COL_LONGITUDE));
+                boolean isVisited = cursor.getString(cursor.getColumnIndex(     COL_ISVISITED)).equals("1");
+                String photoLinks = cursor.getString(cursor.getColumnIndex(     COL_PHOTOLINKS));
+                coordinates.add(new Coordinate(new LatLng(latitude, longitude), name, description, descriptionEN, ID, isVisited, convertStringToArray(photoLinks)));
             } while (cursor.moveToNext());
         }
 
@@ -143,6 +188,10 @@ public class RouteDB extends SQLiteOpenHelper {
         return coordinates;
     }
 
+    /**
+     * Adds a listener to be informed when the data inside the database gets updated
+     * @param listener the listener to be added to the list of subscribers
+     */
     public void setDataSetChangedListener(DatasetChangedListener listener){
         this.subscribers.add(listener);
     }
